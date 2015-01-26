@@ -1,7 +1,6 @@
 ## gitolite-rugged
-[![Gem Version](https://badge.fury.io/rb/gitolite-rugged.svg)](http://badge.fury.io/rb/gitolite-rugged)
 [![Build Status](https://travis-ci.org/oliverguenther/gitolite-rugged.svg?branch=devel)](https://travis-ci.org/oliverguenther/gitolite-rugged)
-[![Code Climate](https://codeclimate.com/github/oliverguenther/gitolite-rugged.png)](https://codeclimate.com/github/oliverguenther/gitolite-rugged)
+[![Code Climate](https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/gpa.svg)](https://codeclimate.com/github/jbox-web/gitolite-rugged)
 
 ### This gem is a fork from the [jbox-gitolite](https://github.com/jbox-web/gitolite) gem employing [libgit2/rugged](https://github.com/libgit2/rugged).
 
