@@ -20,7 +20,13 @@ It provides these functionalities :
 
 ## Installation ##
 
-    gem install gitolite-rugged
+Put this in your ```Gemfile``` :
+
+    gem 'gitolite-rugged', git: 'https://github.com/jbox-web/gitolite-rugged.git', branch: 'v1.0.0'
+
+then
+
+    bundle install
 
 
 ## Usage ##
