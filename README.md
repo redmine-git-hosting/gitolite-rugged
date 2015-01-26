@@ -1,5 +1,5 @@
 ## gitolite-rugged
-[![Build Status](https://travis-ci.org/oliverguenther/gitolite-rugged.svg?branch=devel)](https://travis-ci.org/oliverguenther/gitolite-rugged)
+[![Build Status](https://travis-ci.org/jbox-web/gitolite-rugged.svg?branch=devel)](https://travis-ci.org/jbox-web/gitolite-rugged)
 [![Code Climate](https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/gpa.svg)](https://codeclimate.com/github/jbox-web/gitolite-rugged)
 
 ### This gem is a fork from the [jbox-gitolite](https://github.com/jbox-web/gitolite) gem employing [libgit2/rugged](https://github.com/libgit2/rugged).
