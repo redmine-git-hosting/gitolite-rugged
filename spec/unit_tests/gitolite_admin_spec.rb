@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Gitolite::GitoliteAdmin do
-  conf_dir   = File.join(File.dirname(__FILE__), 'fixtures', 'configs')
-  repo_dir   = File.join(File.dirname(__FILE__), 'fixtures', 'gitolite-admin')
+  conf_dir   = File.join(File.dirname(__FILE__), '..', 'fixtures', 'configs')
+  repo_dir   = File.join(File.dirname(__FILE__), '..', 'fixtures', 'gitolite-admin')
 
   # Rugged doesn't complain when giving nil keys for testing
   settings = {private_key: nil, public_key: nil, update_on_init: false}

@@ -7,7 +7,7 @@ describe Gitolite::Config::Repo do
 
   describe '#new' do
     it 'should create a repo called "CoolRepo"' do
-      @repo.name.should == "CoolRepo"
+      expect(@repo.name).to eq "CoolRepo"
     end
   end
 
@@ -19,40 +19,40 @@ describe Gitolite::Config::Repo do
       @repo.add_permission("RW", "refs/tags/test[0-9]", "@teachers", "bill", "todd")
       @repo.add_permission("R", "refs/tags/test[0-9]", "@profs")
 
-      @repo.permissions.length.should == 2
-      @repo.permissions[0].size.should == 2
-      @repo.permissions[1].size.should == 3
+      expect(@repo.permissions.length).to eq 2
+      expect(@repo.permissions[0].size).to eq 2
+      expect(@repo.permissions[1].size).to eq 3
     end
   end
 
   describe '#add_permission' do
     it 'should allow adding a permission to the permissions list' do
       @repo.add_permission("RW+")
-      @repo.permissions.length.should == 1
-      @repo.permissions.first.keys.first.should == "RW+"
+      expect(@repo.permissions.length).to eq 1
+      expect(@repo.permissions.first.keys.first).to eq "RW+"
     end
 
     it 'should allow adding a permission while specifying a refex' do
       @repo.add_permission("RW+", "refs/heads/master")
-      @repo.permissions.length.should == 1
-      @repo.permissions.first.keys.first.should == "RW+"
-      @repo.permissions.first.values.last.first.first.should == "refs/heads/master"
+      expect(@repo.permissions.length).to eq 1
+      expect(@repo.permissions.first.keys.first).to eq "RW+"
+      expect(@repo.permissions.first.values.last.first.first).to eq "refs/heads/master"
     end
 
     it 'should allow specifying users individually' do
       @repo.add_permission("RW+", "", "bob", "joe", "susan", "sam", "bill")
-      @repo.permissions.first["RW+"][""].should == %w[bob joe susan sam bill]
+      expect(@repo.permissions.first["RW+"][""]).to eq %w[bob joe susan sam bill]
     end
 
     it 'should allow specifying users as an array' do
       users = %w[bob joe susan sam bill]
 
       @repo.add_permission("RW+", "", users)
-      @repo.permissions.first["RW+"][""].should == users
+      expect(@repo.permissions.first["RW+"][""]).to eq users
     end
 
     it 'should not allow adding an invalid permission via an InvalidPermissionError' do
-      expect {@repo.add_permission("BadPerm")}.to raise_error
+      expect(lambda { @repo.add_permission("BadPerm") } ).to raise_error
     end
   end
 
@@ -145,13 +145,13 @@ describe Gitolite::Config::Repo do
   describe 'git config options' do
     it 'should allow setting a git configuration option' do
       email = "bob@zilla.com"
-      @repo.set_git_config("email", email).should == email
+      expect(@repo.set_git_config("email", email)).to eq email
     end
 
     it 'should allow deletion of an existing git configuration option' do
       email = "bob@zilla.com"
       @repo.set_git_config("email", email)
-      @repo.unset_git_config("email").should == email
+      expect(@repo.unset_git_config("email")).to eq email
     end
 
   end
@@ -160,9 +160,9 @@ describe Gitolite::Config::Repo do
     it 'should allow setting a gitolite option' do
       master = "kenobi"
       slaves = "one"
-      @repo.set_gitolite_option("mirror.master", master).should == master
-      @repo.set_gitolite_option("mirror.slaves", slaves).should == slaves
-      @repo.options.length.should == 2
+      expect(@repo.set_gitolite_option("mirror.master", master)).to eq master
+      expect(@repo.set_gitolite_option("mirror.slaves", slaves)).to eq slaves
+      expect(@repo.options.length).to eq 2
     end
 
     it 'should allow deletion of an existing gitolite option' do
@@ -170,9 +170,9 @@ describe Gitolite::Config::Repo do
       slaves = "one"
       @repo.set_gitolite_option("mirror.master", master)
       @repo.set_gitolite_option("mirror.slaves", slaves)
-      @repo.options.length.should == 2
-      @repo.unset_gitolite_option("mirror.master").should == master
-      @repo.options.length.should == 1
+      expect(@repo.options.length).to eq 2
+      expect(@repo.unset_gitolite_option("mirror.master")).to eq master
+      expect(@repo.options.length).to eq 1
     end
   end
 
@@ -183,8 +183,8 @@ describe Gitolite::Config::Repo do
 
       @repo.add_permission("RW+", "", users)
       @repo.add_permission("RW+", "", more_users)
-      @repo.permissions.first["RW+"][""].should == users.concat(more_users)
-      @repo.permissions.first["RW+"][""].length.should == 9
+      expect(@repo.permissions.first["RW+"][""]).to eq users.concat(more_users)
+      expect(@repo.permissions.first["RW+"][""].length).to eq 9
     end
 
     it 'should not list the same users twice for the same permission level' do
@@ -195,8 +195,8 @@ describe Gitolite::Config::Repo do
       @repo.add_permission("RW+", "", users)
       @repo.add_permission("RW+", "", more_users)
       @repo.add_permission("RW+", "", even_more_users)
-      @repo.permissions.first["RW+"][""].should == users.concat(more_users).concat(even_more_users).uniq!
-      @repo.permissions.first["RW+"][""].length.should == 11
+      expect(@repo.permissions.first["RW+"][""]).to eq users.concat(more_users).concat(even_more_users).uniq!
+      expect(@repo.permissions.first["RW+"][""].length).to eq 11
     end
   end
 end

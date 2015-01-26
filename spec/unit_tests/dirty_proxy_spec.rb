@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Gitolite::DirtyProxy do
 
   it "should create a new instance given valid attributes" do
-    Gitolite::DirtyProxy.new([]).should_not be_nil
+    expect(Gitolite::DirtyProxy.new([])).to_not be nil
   end
 
 
@@ -13,42 +13,42 @@ describe Gitolite::DirtyProxy do
 
   describe 'delegating to the target object' do
     it 'should act as instance of the target' do
-      proxy.should be_instance_of target.class
+      expect(proxy).to be_instance_of target.class
     end
 
     it 'should respond to all methods of the target' do
-      proxy.should respond_to(*target.methods)
+      expect(proxy).to respond_to(*target.methods)
     end
 
     it 'should equal the target' do
-      expect(proxy).to eql(target)
+      expect(proxy).to eql target
     end
   end
 
 
   describe 'dirty checking methods' do
     it 'should respond to clean_up!' do
-      proxy.respond_to?(:clean_up!).should be true
+      expect(proxy.respond_to?(:clean_up!)).to be true
     end
 
     it 'should respond to dirty?' do
-      proxy.respond_to?(:dirty?).should be true
+      expect(proxy.respond_to?(:dirty?)).to be true
     end
 
     context 'when just initialized' do
       it 'should be clean' do
-        proxy.dirty?.should be false
+        expect(proxy.dirty?).to be false
       end
     end
 
     shared_examples 'dirty? clean_up!' do
       it 'should be dirty' do
-        proxy.dirty?.should be true
+        expect(proxy.dirty?).to be true
       end
 
       it 'should be clean again after clean_up!' do
         proxy.clean_up!
-        proxy.dirty?.should be false
+        expect(proxy.dirty?).to be false
       end
     end
 

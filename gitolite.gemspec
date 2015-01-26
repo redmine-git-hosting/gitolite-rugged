@@ -13,9 +13,9 @@ Gem::Specification.new do |s|
   s.description = %q{This gem is designed to provide a Ruby interface to the Gitolite Git backend system using libgit2/rugged. This gem aims to provide all management functionality that is available via the gitolite-admin repository (like SSH keys, repository permissions, etc)}
   s.license     = 'MIT'
 
-  s.add_development_dependency 'rake',           '~> 10.3', '>= 10.3.1'
+  s.add_development_dependency 'rake',           '~> 10.4', '>= 10.4.2'
   s.add_development_dependency 'rdoc',           '~> 4.1', '>= 4.1.1'
-  s.add_development_dependency 'rspec',          '~> 2.14', '>= 2.14.1'
+  s.add_development_dependency 'rspec',          '~> 3.1', '>= 3.1.0'
   s.add_development_dependency 'forgery',        '~> 0.6', '>= 0.6.0'
   s.add_development_dependency 'simplecov',      '~> 0.8', '>= 0.8.2'
   s.add_development_dependency 'simplecov-rcov', '~> 0.2', '>= 0.2.3'

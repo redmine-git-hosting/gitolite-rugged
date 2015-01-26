@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Gitolite::SSHKey do
 
-  key_dir    = File.join(File.dirname(__FILE__), 'fixtures', 'keys', 'bob')
+  key_dir    = File.join(File.dirname(__FILE__), '..', 'fixtures', 'keys', 'bob')
   output_dir = '/tmp'
 
   describe "#from_string" do
@@ -11,14 +11,14 @@ describe Gitolite::SSHKey do
       key_string = File.read(key)
       s = SSHKey.from_string(key_string, "bob")
 
-      s.owner.should == 'bob'
-      s.location.should == ""
-      s.blob.should == key_string.split[1]
+      expect(s.owner).to eq 'bob'
+      expect(s.location).to eq ""
+      expect(s.blob).to eq key_string.split[1]
     end
 
     it 'should raise an ArgumentError when an owner isnt specified' do
       key_string = "not_a_real_key"
-      lambda { SSHKey.from_string(key_string) }.should raise_error
+      expect(lambda { SSHKey.from_string(key_string) }).to raise_error
     end
 
     it 'should have a location when one is specified' do
@@ -26,17 +26,17 @@ describe Gitolite::SSHKey do
       key_string = File.read(key)
       s = SSHKey.from_string(key_string, "bob", "kansas")
 
-      s.owner.should == 'bob'
-      s.location.should == "kansas"
-      s.blob.should == key_string.split[1]
+      expect(s.owner).to eq 'bob'
+      expect(s.location).to eq "kansas"
+      expect(s.blob).to eq key_string.split[1]
     end
 
     it 'should raise an ArgumentError when owner is nil' do
-      lambda { SSHKey.from_string("bad_string", nil) }.should raise_error
+      expect(lambda { SSHKey.from_string("bad_string", nil) }).to raise_error
     end
 
     it 'should raise an ArgumentError when we get an invalid SSHKey string' do
-      lambda { SSHKey.from_string("bad_string", "bob") }.should raise_error
+      expect(lambda { SSHKey.from_string("bad_string", "bob") }).to raise_error
     end
   end
 
@@ -46,37 +46,37 @@ describe Gitolite::SSHKey do
       s = SSHKey.from_file(key)
       key_string = File.read(key).split
 
-      s.owner.should == "bob"
-      s.blob.should == key_string[1]
-      s.location.should == ''
+      expect(s.owner).to eq "bob"
+      expect(s.blob).to eq key_string[1]
+      expect(s.location).to eq ''
     end
 
     it 'should load a key from a file' do
       key = File.join(key_dir, 'bob.pub')
       s = SSHKey.from_file(key)
-      s.owner.should == 'bob'
-      s.location.should == ''
+      expect(s.owner).to eq 'bob'
+      expect(s.location).to eq ''
     end
 
     it 'should load a key with an e-mail owner from a file' do
       key = File.join(key_dir, 'bob@example.com.pub')
       s = SSHKey.from_file(key)
-      s.owner.should == 'bob@example.com'
-      s.location.should == ''
+      expect(s.owner).to eq 'bob@example.com'
+      expect(s.location).to eq ''
     end
 
     it 'should load a key from a file within location' do
       key = File.join(key_dir, 'desktop', 'bob.pub')
       s = SSHKey.from_file(key)
-      s.owner.should == 'bob'
-      s.location.should == 'desktop'
+      expect(s.owner).to eq 'bob'
+      expect(s.location).to eq 'desktop'
     end
 
     it 'should load a key from a file within location' do
       key = File.join(key_dir, 'school', 'bob.pub')
       s = SSHKey.from_file(key)
-      s.owner.should == 'bob'
-      s.location.should == 'school'
+      expect(s.owner).to eq 'bob'
+      expect(s.location).to eq 'school'
     end
   end
 
@@ -86,9 +86,9 @@ describe Gitolite::SSHKey do
       s = SSHKey.from_file(key)
       parts = File.read(key).split #should get type, blob, email
 
-      s.type.should == parts[0]
-      s.blob.should == parts[1]
-      s.email.should == parts[2]
+      expect(s.type).to eq parts[0]
+      expect(s.blob).to eq parts[1]
+      expect(s.email).to eq parts[2]
     end
   end
 
@@ -100,8 +100,8 @@ describe Gitolite::SSHKey do
 
       s = SSHKey.new(type, blob, email)
 
-      s.to_s.should == [type, blob, email].join(' ')
-      s.owner.should == email
+      expect(s.to_s).to eq [type, blob, email].join(' ')
+      expect(s.owner).to eq email
     end
 
     it 'should create a valid ssh key while specifying an owner' do
@@ -112,8 +112,8 @@ describe Gitolite::SSHKey do
 
       s = SSHKey.new(type, blob, email, owner)
 
-      s.to_s.should == [type, blob, email].join(' ')
-      s.owner.should == owner
+      expect(s.to_s).to eq [type, blob, email].join(' ')
+      expect(s.owner).to eq owner
     end
 
     it 'should create a valid ssh key while specifying an owner and location' do
@@ -125,9 +125,9 @@ describe Gitolite::SSHKey do
 
       s = SSHKey.new(type, blob, email, owner, location)
 
-      s.to_s.should == [type, blob, email].join(' ')
-      s.owner.should == owner
-      s.location.should == location
+      expect(s.to_s).to eq [type, blob, email].join(' ')
+      expect(s.owner).to eq owner
+      expect(s.location).to eq location
     end
   end
 
@@ -142,7 +142,7 @@ describe Gitolite::SSHKey do
       hash_test = [owner, location, type, blob, email].hash
       s = SSHKey.new(type, blob, email, owner, location)
 
-      s.hash.should == hash_test
+      expect(s.hash).to eq hash_test
     end
   end
 
@@ -154,7 +154,7 @@ describe Gitolite::SSHKey do
 
       s = SSHKey.new(type, blob, email)
 
-      s.filename.should == "#{email}.pub"
+      expect(s.filename).to eq "#{email}.pub"
     end
 
     it 'should create a filename that is the <owner>.pub' do
@@ -165,7 +165,7 @@ describe Gitolite::SSHKey do
 
       s = SSHKey.new(type, blob, email, owner)
 
-      s.filename.should == "#{owner}.pub"
+      expect(s.filename).to eq "#{owner}.pub"
     end
 
     it 'should create a filename that is the <email>.pub' do
@@ -176,8 +176,8 @@ describe Gitolite::SSHKey do
 
       s = SSHKey.new(type, blob, email, nil, location)
 
-      s.filename.should == "#{email}.pub"
-      s.relative_path.should == File.join(email, location, "#{email}.pub")
+      expect(s.filename).to eq "#{email}.pub"
+      expect(s.relative_path).to eq File.join(email, location, "#{email}.pub")
     end
 
     it 'should create a filename that is the <owner>@<location>.pub' do
@@ -189,7 +189,7 @@ describe Gitolite::SSHKey do
 
       s = SSHKey.new(type, blob, email, owner, location)
 
-      s.filename.should == "#{owner}.pub"
+      expect(s.filename).to eq "#{owner}.pub"
     end
   end
 
@@ -207,7 +207,7 @@ describe Gitolite::SSHKey do
       s.to_file(output_dir)
 
       ## compare raw string with written file
-      s.to_s.should == File.read(File.join(output_dir, owner, location, s.filename))
+      expect(s.to_s).to eq File.read(File.join(output_dir, owner, location, s.filename))
     end
 
     it 'should return the filename written' do
@@ -218,7 +218,7 @@ describe Gitolite::SSHKey do
       location = Forgery::Basic.text(:at_least => 8, :at_most => 15)
 
       s = SSHKey.new(type, blob, email, owner, location)
-      s.to_file(output_dir).should == File.join(output_dir, owner, location, s.filename)
+      expect(s.to_file(output_dir)).to eq File.join(output_dir, owner, location, s.filename)
     end
   end
 
@@ -231,7 +231,7 @@ describe Gitolite::SSHKey do
       s1 = SSHKey.new(type, blob, email)
       s2 = SSHKey.new(type, blob, email)
 
-      s1.should == s2
+      expect(s1).to eq s2
     end
   end
 end
