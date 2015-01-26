@@ -35,7 +35,7 @@ In both cases, use the following code to create an instance of the manager:
 
 	settings = { :public_key => '~/.ssh/id_rsa.pub', :private_key => '~/.ssh/id_rsa' }
 	admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
-		
+
 For cloning and pushing to the gitolite-admin.git, you have to provide several options to `GitoliteAdmin` in the settings hash. The following keys are used.
 
 * **:git_user** The git user to SSH to (:git_user@localhost:gitolite-admin.git), defaults to 'git'
@@ -52,15 +52,15 @@ To add a key, create a `SSHKey` object and use the `add_key(key)` method of Gito
 
 	# From filesystem
 	key_from_file = SSHKey.from_file("/home/alice/.ssh/id_rsa.pub")
-	
+
 	# From String, which requires us to add an owner manually
 	key_from_string = SSHKey.from_string('ssh-rsa AAAAB3N/* .... */JjZ5SgfIKab bob@localhost', 'bob')
-	
+
 	admin.add_key(key_from_string)
 	admin.add_key(key_from_file)
-	
+
 Note that you can add a *location* using the syntax described in [the Gitolite documentation](http://gitolite.com/gitolite/users.html#old-style-multi-keys).
-	
+
 
 To write out the changes to the keys to the filesystem and push them to gitolite, call `admin.save_and_apply`.
 You can also manually call `admin.save` to commit the changes locally, but not push them.
@@ -72,10 +72,10 @@ To add a new repository, we first create and configure it, and then add it to th
 
 	repo = Gitolite::Config::Repo.new('foobar')
 	repo.add_permission("RW+", "alice", "bob")
-	
+
 	# Add the repo
 	admin.config.add_repo(repo)
-	
+
 To remove a repository called 'foobar', execute `config.rm_repo('foobar')`.
 
 
@@ -86,7 +86,7 @@ As in the [Gitolite Config](http://gitolite.com/gitolite/groups.html) you can de
 	# Creating a group
 	devs = Gitolite::Config::Group.new('developers')
 	devs.add_users("alice", "bob")
-	
+
 	# Adding a group to config
 	admin.config.add_group(devs)
 
@@ -94,6 +94,8 @@ As in the [Gitolite Config](http://gitolite.com/gitolite/groups.html) you can de
 
 ## Copyrights & License
 gitolite-rugged is completely free and open source and released under the [MIT License](https://github.com/oliverguenther/gitolite/blob/devel/LICENSE.txt).
+
+Copyright (c) 2015 Nicolas Rodriguez (nrodriguez@jbox-web.com), JBox Web (http://www.jbox-web.com)
 
 Copyright (c) 2014 Oliver Günther (mail@oliverguenther.de)
 
