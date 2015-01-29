@@ -1,4 +1,5 @@
 require 'pathname'
+
 module Gitolite
   class GitoliteAdmin
 
@@ -27,6 +28,7 @@ module Gitolite
       reset_before_update: true
     }
 
+
     class << self
 
       # Checks if the given path is a gitolite-admin repository
@@ -49,10 +51,13 @@ module Gitolite
         true
       end
 
+
       def admin_url(settings)
         ['ssh://', settings[:git_user], '@', settings[:host], '/gitolite-admin.git'].join
       end
+
     end
+
 
     # Intialize with the path to
     # the gitolite-admin repository
@@ -73,6 +78,7 @@ module Gitolite
     # :lock_file_path: location of the transaction lockfile, defaults to <gitolite-admin.git>/.lock
     #
     # The settings hash is forwarded to +GitoliteAdmin.new+ as options.
+    #
     def initialize(path, settings = {})
       @path = path
       @settings = DEFAULTS.merge(settings)
@@ -108,21 +114,23 @@ module Gitolite
     end
 
 
-    #
     # Returns the relative directory to the gitolite config file location.
     # I.e., settings[config_dir]/settings[config_file]
     # Defaults to 'conf/gitolite.conf'
+    #
     def relative_config_file
       File.join(@settings[:config_dir], @settings[:config_file])
     end
 
-    #
+
     # Returns the relative directory to the public key location.
     # I.e., settings[key_dir]/settings[key_subdir]
     # Defaults to 'keydir/'
+    #
     def relative_key_dir
       File.join(@settings[:key_dir], @settings[:key_subdir])
     end
+
 
     def config
       @config ||= load_config
@@ -159,6 +167,7 @@ module Gitolite
 
     # This method will destroy all local tracked changes, resetting the local gitolite
     # git repo to HEAD
+    #
     def reset!
       @repo.reset('origin/master', :hard)
     end
@@ -166,6 +175,7 @@ module Gitolite
 
     # This method will destroy the in-memory data structures and reload everything
     # from the file system
+    #
     def reload!
       @ssh_keys = load_keys
       @config = load_config
@@ -174,18 +184,18 @@ module Gitolite
 
     # Writes all changed aspects out to the file system
     # will also stage all changes then commit
+    #
     def save(commit_msg = nil)
-
       # Add all changes to index (staging area)
       index = @repo.index
 
-      #Process config file (if loaded, i.e. may be modified)
+      # Process config file (if loaded, i.e. may be modified)
       if @config
         new_conf = @config.to_file(path=@config_dir_path)
         index.add(relative_config_file)
       end
 
-      #Process ssh keys (if loaded, i.e. may be modified)
+      # Process ssh keys (if loaded, i.e. may be modified)
       if @ssh_keys
         files = list_keys.map{|f| relative_key_path(f) }
         keys  = @ssh_keys.values.map{|f| f.map {|t| t.relative_path}}.flatten
@@ -223,12 +233,14 @@ module Gitolite
 
 
     # Push back to origin
+    #
     def apply
       @repo.push('origin', ['refs/heads/master'], credentials: @credentials)
     end
 
 
     # Commits all staged changes and pushes back to origin
+    #
     def save_and_apply()
       save
       apply
@@ -238,6 +250,7 @@ module Gitolite
     # Lock the gitolite-admin directory and yield.
     # After the block is completed, calls +apply+ only.
     # You have to commit your changes within the transaction block
+    #
     def transaction
       get_lock do
         yield
@@ -250,8 +263,8 @@ module Gitolite
 
     # Updates the repo with changes from remote master
     # Warning: This resets the repo before pulling in the changes.
+    #
     def update
-
       # Reset --hard repo before update
       if @settings[:reset_before_update]
         reset!
@@ -284,71 +297,75 @@ module Gitolite
     private
 
 
-    # Clone the gitolite-admin repo
-    # to the given path.
-    #
-    # The repo is cloned from the url
-    # +(:git_user)@(:hostname)/gitolite-admin.git+
-    #
-    # The hostname may use an optional :port to allow for custom SSH ports.
-    # E.g., +git@localhost:2222/gitolite-admin.git+
-    #
-    def clone
-      Rugged::Repository.clone_at(GitoliteAdmin.admin_url(@settings), File.expand_path(@path), credentials: @credentials)
-    end
-
-
-    def load_config
-      Config.new(@config_file_path)
-    end
-
-
-    def list_keys
-      Dir.glob(@key_dir_path + '/**/*.pub')
-    end
-
-    # Returns the relative key path
-    # <owner>/<location>/<owner> given an absolute path
-    # below the keydir.
-    def relative_key_path(key_path)
-      Pathname.new(key_path).relative_path_from(Pathname.new(@key_dir_path)).to_s
-    end
-
-
-    # Loads all .pub files in the gitolite-admin
-    # keydir directory
-    def load_keys
-      keys = Hash.new {|k,v| k[v] = DirtyProxy.new([])}
-
-      list_keys.each do |key|
-        new_key = SSHKey.from_file(key)
-        owner = new_key.owner
-
-        keys[owner] << new_key
+      # Clone the gitolite-admin repo
+      # to the given path.
+      #
+      # The repo is cloned from the url
+      # +(:git_user)@(:hostname)/gitolite-admin.git+
+      #
+      # The hostname may use an optional :port to allow for custom SSH ports.
+      # E.g., +git@localhost:2222/gitolite-admin.git+
+      #
+      def clone
+        Rugged::Repository.clone_at(GitoliteAdmin.admin_url(@settings), File.expand_path(@path), credentials: @credentials)
       end
 
-      # Mark key sets as unmodified (for dirty checking)
-      keys.values.each{|set| set.clean_up!}
 
-      keys
-    end
-
-    def lock_file_path
-      File.expand_path(@settings[:lock_file_path], @path)
-    end
-
-
-    # Aquire LOCK_EX on the gitolite-admin.git directory .
-    # Use +GitoliteAdmin.transaction+ to modify with flock.
-    def get_lock
-      File.open(lock_file_path, File::RDWR|File::CREAT, 0644) do |file|
-        file.sync = true
-        file.flock(File::LOCK_EX)
-
-        yield
-
-        file.flock(File::LOCK_UN)
+      def load_config
+        Config.new(@config_file_path)
       end
-    end
+
+
+      def list_keys
+        Dir.glob(@key_dir_path + '/**/*.pub')
+      end
+
+
+      # Returns the relative key path
+      # <owner>/<location>/<owner> given an absolute path
+      # below the keydir.
+      def relative_key_path(key_path)
+        Pathname.new(key_path).relative_path_from(Pathname.new(@key_dir_path)).to_s
+      end
+
+
+      # Loads all .pub files in the gitolite-admin
+      # keydir directory
+      def load_keys
+        keys = Hash.new {|k,v| k[v] = DirtyProxy.new([])}
+
+        list_keys.each do |key|
+          new_key = SSHKey.from_file(key)
+          owner = new_key.owner
+
+          keys[owner] << new_key
+        end
+
+        # Mark key sets as unmodified (for dirty checking)
+        keys.values.each{|set| set.clean_up!}
+
+        keys
+      end
+
+
+      def lock_file_path
+        File.expand_path(@settings[:lock_file_path], @path)
+      end
+
+
+      # Aquire LOCK_EX on the gitolite-admin.git directory .
+      # Use +GitoliteAdmin.transaction+ to modify with flock.
+      #
+      def get_lock
+        File.open(lock_file_path, File::RDWR|File::CREAT, 0644) do |file|
+          file.sync = true
+          file.flock(File::LOCK_EX)
+
+          yield
+
+          file.flock(File::LOCK_UN)
+        end
+      end
+
   end
 end
