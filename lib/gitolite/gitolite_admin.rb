@@ -307,6 +307,7 @@ module Gitolite
       # E.g., +git@localhost:2222/gitolite-admin.git+
       #
       def clone
+        FileUtils.rm_rf(File.expand_path(@path)) if Dir.exists?(File.expand_path(@path))
         Rugged::Repository.clone_at(GitoliteAdmin.admin_url(@settings), File.expand_path(@path), credentials: @credentials)
       end
 
