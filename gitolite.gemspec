@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'simplecov-rcov', '~> 0.2', '>= 0.2.3'
   s.add_development_dependency 'spork',          '~> 0.9', '>= 0.9.2'
 
-  s.add_dependency 'rugged',  '~> 0.21', '>= 0.21.4'
+  s.add_dependency 'rugged',  '~> 0.22', '>= 0.22.2'
   s.add_dependency 'gratr19', '~> 0.4.4', '>= 0.4.4.1'
 
   s.files         = `git ls-files`.split("\n")
