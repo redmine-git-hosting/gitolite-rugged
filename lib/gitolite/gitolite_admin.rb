@@ -68,11 +68,9 @@ module Gitolite
       )
 
       if self.class.is_gitolite_admin_repo?(path)
-        @repo = Rugged::Repository.new(path, credentials: @credentials )
-        # Update repository
-        if @settings[:update_on_init]
-          update
-        end
+        @repo = Rugged::Repository.new(path, credentials: @credentials)
+        # Update repository if asked
+        update if @settings[:update_on_init]
       else
         @repo = clone
       end
