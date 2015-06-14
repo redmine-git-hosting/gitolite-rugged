@@ -8,7 +8,7 @@ describe Gitolite::GitoliteAdmin do
   settings = {private_key: nil, public_key: nil, update_on_init: false}
 
 
-  def in_fake_gitolite_repo(source_dir:, &block)
+  def in_fake_gitolite_repo(source_dir, &block)
     Dir.mktmpdir('gitolite-rugged-admin-repo') do |dir|
       tmp_repo = File.join(dir, "gitolite-admin")
       FileUtils.cp_r(source_dir, tmp_repo)
@@ -27,7 +27,7 @@ describe Gitolite::GitoliteAdmin do
 
   describe '#admin_url' do
     it 'should give Gitolite Admin url' do
-      in_fake_gitolite_repo(source_dir: repo_dir) do |tmp_repo|
+      in_fake_gitolite_repo(repo_dir) do |tmp_repo|
         gl_admin = GitoliteAdmin.new(tmp_repo, settings)
         expect(gl_admin.admin_url).to eq 'ssh://git@localhost/gitolite-admin.git'
       end
@@ -37,7 +37,7 @@ describe Gitolite::GitoliteAdmin do
 
   describe '#config' do
     it 'should render gitolite config' do
-      in_fake_gitolite_repo(source_dir: repo_dir) do |tmp_repo|
+      in_fake_gitolite_repo(repo_dir) do |tmp_repo|
         gl_admin = GitoliteAdmin.new(tmp_repo, settings)
         expect(gl_admin.config).to be_a Gitolite::Config
       end
@@ -47,7 +47,7 @@ describe Gitolite::GitoliteAdmin do
 
   describe '#ssh_keys' do
     it 'should render gitolite config' do
-      in_fake_gitolite_repo(source_dir: repo_dir) do |tmp_repo|
+      in_fake_gitolite_repo(repo_dir) do |tmp_repo|
         gl_admin = GitoliteAdmin.new(tmp_repo, settings)
         expect(gl_admin.ssh_keys).to be_a Hash
       end
@@ -57,7 +57,7 @@ describe Gitolite::GitoliteAdmin do
 
   describe '#save' do
     it 'should commit file to gitolite-admin repository' do
-      in_fake_gitolite_repo(source_dir: repo_dir) do |tmp_repo|
+      in_fake_gitolite_repo(repo_dir) do |tmp_repo|
         gl_admin = GitoliteAdmin.new(tmp_repo, settings)
 
         c = Gitolite::Config.new(File.join(conf_dir, 'complicated.conf'))
