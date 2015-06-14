@@ -199,7 +199,7 @@ module Gitolite
 
       # Process config file (if loaded, i.e. may be modified)
       if @config
-        new_conf = @config.to_file(path=@config_dir_path)
+        new_conf = @config.to_file(@config_dir_path)
         index.add(relative_config_file)
       end
 
