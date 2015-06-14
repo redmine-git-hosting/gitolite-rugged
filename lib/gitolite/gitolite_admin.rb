@@ -3,8 +3,6 @@ require 'pathname'
 module Gitolite
   class GitoliteAdmin
 
-    attr_reader :repo
-
     # Default settings
     DEFAULTS = {
       # clone/push url settings
@@ -29,6 +27,10 @@ module Gitolite
     }
 
 
+    attr_reader :repo
+    attr_reader :path
+    attr_reader :full_path
+
     # Intialize with the path to
     # the gitolite-admin repository
     #
@@ -50,8 +52,9 @@ module Gitolite
     # The settings hash is forwarded to +GitoliteAdmin.new+ as options.
     #
     def initialize(path, settings = {})
-      @path = path
-      @settings = DEFAULTS.merge(settings)
+      @path      = path
+      @full_path = File.expand_path(path)
+      @settings  = DEFAULTS.merge(settings)
 
       # Ensure SSH key settings exist
       @settings.fetch(:public_key)
@@ -337,8 +340,13 @@ module Gitolite
       # E.g., +git@localhost:2222/gitolite-admin.git+
       #
       def clone
-        FileUtils.rm_rf(File.expand_path(@path)) if Dir.exists?(File.expand_path(@path))
-        Rugged::Repository.clone_at(admin_url, File.expand_path(@path), credentials: @credentials)
+        clean_up_gitolite_dir
+        Rugged::Repository.clone_at(admin_url, full_path, credentials: @credentials)
+      end
+
+
+      def clean_up_gitolite_dir
+        FileUtils.rm_rf(full_path) if Dir.exists?(full_path)
       end
 
 
@@ -377,7 +385,7 @@ module Gitolite
 
 
       def lock_file_path
-        File.expand_path(@settings[:lock_file_path], @path)
+        File.expand_path(@settings[:lock_file_path], path)
       end
 
 
