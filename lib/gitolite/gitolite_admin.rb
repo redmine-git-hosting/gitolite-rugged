@@ -67,10 +67,6 @@ module Gitolite
         privatekey: settings[:private_key]
       )
 
-      @config_dir_path  = File.join(@path, @settings[:config_dir])
-      @config_file_path = File.join(@config_dir_path, @settings[:config_file])
-      @key_dir_path     = File.join(@path, relative_key_dir)
-
       if self.class.is_gitolite_admin_repo?(path)
         @repo = Rugged::Repository.new(path, credentials: @credentials )
         # Update repository
@@ -125,6 +121,25 @@ module Gitolite
 
     def commit_author
       { email: @settings[:author_email], name: @settings[:author_name] }.clone
+    end
+
+
+    ####################
+    #  Path accessors  #
+    ####################
+
+    def config_dir_path
+      File.join(path, @settings[:config_dir])
+    end
+
+
+    def config_file_path
+      File.join(config_dir_path, @settings[:config_file])
+    end
+
+
+    def key_dir_path
+      File.join(path, relative_key_dir)
     end
 
 
@@ -199,7 +214,7 @@ module Gitolite
 
       # Process config file (if loaded, i.e. may be modified)
       if @config
-        new_conf = @config.to_file(@config_dir_path)
+        new_conf = @config.to_file(config_dir_path)
         index.add(relative_config_file)
       end
 
@@ -209,7 +224,7 @@ module Gitolite
         keys  = @ssh_keys.values.map { |f| f.map { |t| t.relative_path } }.flatten
 
         to_remove = (files - keys).each do |key|
-          SSHKey.remove(key, @key_dir_path)
+          SSHKey.remove(key, key_dir_path)
           index.remove File.join(relative_key_dir, key)
         end
 
@@ -217,7 +232,7 @@ module Gitolite
           # Write only keys from sets that has been modified
           next if key.respond_to?(:dirty?) && !key.dirty?
           key.each do |k|
-            new_key = k.to_file(@key_dir_path)
+            new_key = k.to_file(key_dir_path)
             index.add File.join(relative_key_dir, k.relative_path)
           end
         end
@@ -351,12 +366,12 @@ module Gitolite
 
 
       def load_config
-        Config.new(@config_file_path)
+        Config.new(config_file_path)
       end
 
 
       def list_keys
-        Dir.glob(@key_dir_path + '/**/*.pub')
+        Dir.glob(key_dir_path + '/**/*.pub')
       end
 
 
@@ -364,7 +379,7 @@ module Gitolite
       # <owner>/<location>/<owner> given an absolute path
       # below the keydir.
       def relative_key_path(key_path)
-        Pathname.new(key_path).relative_path_from(Pathname.new(@key_dir_path)).to_s
+        Pathname.new(key_path).relative_path_from(Pathname.new(key_dir_path)).to_s
       end
 
 
