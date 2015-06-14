@@ -1,4 +1,5 @@
 require 'fileutils'
+
 module Gitolite
 
   # Models an SSH key within gitolite
@@ -30,6 +31,7 @@ module Gitolite
 
 
       # Construct a SSHKey from a string
+      #
       def from_string(key_string, owner, location = "")
         if owner.nil?
           raise ArgumentError, "owner was nil, you must specify an owner"
@@ -51,6 +53,7 @@ module Gitolite
         self.new(type, blob, email, owner, location)
       end
 
+
       # Parse the key path above the key to be read.
       # As we can omit the location, there are two possible options:
       #
@@ -60,6 +63,7 @@ module Gitolite
       # We test this by checking the parent of the given path.
       # If it equals owner, a location was set.
       # This allows the daft case of e.g., using <keydir>/bob/bob/bob.pub.
+      #
       def location_from_path(path, owner)
         keyroot = File.dirname(path)
         if File.basename(keyroot) == owner
@@ -69,6 +73,7 @@ module Gitolite
         end
       end
 
+
       def delete_dir_if_empty(dir)
         if File.directory?(dir) && Dir["#{dir}/*"].empty?
           Dir.rmdir(dir)
@@ -77,12 +82,13 @@ module Gitolite
         STDERR.puts("Warning: Couldn't delete empty directory: #{e.message}")
       end
 
+
       # Remove a key given a relative path
       #
       # Unlinks the key file and removes any empty parent directory
       # below key_dir
+      #
       def remove(key_file, key_dir_path)
-
         abs_key_path = File.join(key_dir_path, key_file)
         key = self.from_file(abs_key_path)
 
@@ -133,9 +139,11 @@ module Gitolite
       key_file
     end
 
+
     def relative_path
       File.join(@owner, @location, self.filename)
     end
+
 
     def filename
       [@owner, '.pub'].join
