@@ -398,6 +398,36 @@ module Gitolite
       end
 
 
+      def local_branch
+        repo.references["refs/heads/#{local_branch_name}"].target
+      end
+
+
+      def distant_branch
+        repo.references["refs/remotes/origin/#{distant_branch_name}"].target
+      end
+
+
+      def local_branch_name
+        'master'
+      end
+
+
+      def distant_branch_name
+        'master'
+      end
+
+
+      def update_ref
+        "refs/heads/#{local_branch_name}"
+      end
+
+
+      def update_message
+        "[gitolite-rugged] Merged `origin/#{distant_branch_name}` into `#{local_branch_name}`"
+      end
+
+
       # Aquire LOCK_EX on the gitolite-admin.git directory .
       # Use +GitoliteAdmin.transaction+ to modify with flock.
       #
