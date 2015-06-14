@@ -12,28 +12,29 @@ module Gitolite
       hostname: 'localhost',
 
       # Commit settings
-      author_name: 'gitolite-rugged gem',
+      author_name:  'gitolite-rugged gem',
       author_email: 'gitolite-rugged@localhost',
-      commit_msg: 'Commited by the gitolite-rugged gem',
+      commit_msg:   'Commited by the gitolite-rugged gem',
 
       # Gitolite-Admin settings
-      config_dir: "conf",
-      key_dir: "keydir",
-      key_subdir: "",
-      config_file: "gitolite.conf",
+      config_dir:     'conf',
+      key_dir:        'keydir',
+      key_subdir:     '',
+      config_file:    'gitolite.conf',
       lock_file_path: '.lock',
 
       # Repo settings
-      update_on_init: true,
+      update_on_init:      true,
       reset_before_update: true
     }
 
 
     class << self
 
-      # Checks if the given path is a gitolite-admin repository
+      # Checks if the given path is a gitolite-admin repository.
       # A valid repository contains a conf folder, keydir folder,
-      # and a configuration file within the conf folder
+      # and a configuration file within the conf folder.
+      #
       def is_gitolite_admin_repo?(dir)
         # First check if it is a git repository
         begin
@@ -44,7 +45,9 @@ module Gitolite
         end
 
         # Check if config file, key directory exist
-        [ File.join(dir, DEFAULTS[:config_dir]), File.join(dir, DEFAULTS[:key_dir]),
+        [
+          File.join(dir, DEFAULTS[:config_dir]),
+          File.join(dir, DEFAULTS[:key_dir]),
           File.join(dir, DEFAULTS[:config_dir], DEFAULTS[:config_file])
         ].each { |f| return false unless File.exists?(f) }
 
@@ -148,19 +151,13 @@ module Gitolite
 
 
     def add_key(key)
-      unless key.instance_of? Gitolite::SSHKey
-        raise GitoliteAdminError, "Key must be of type Gitolite::SSHKey!"
-      end
-
+      raise GitoliteAdminError, 'Key must be of type Gitolite::SSHKey!' unless key.instance_of? Gitolite::SSHKey
       ssh_keys[key.owner] << key
     end
 
 
     def rm_key(key)
-      unless key.instance_of? Gitolite::SSHKey
-        raise GitoliteAdminError, "Key must be of type Gitolite::SSHKey!"
-      end
-
+      raise GitoliteAdminError, 'Key must be of type Gitolite::SSHKey!' unless key.instance_of? Gitolite::SSHKey
       ssh_keys[key.owner].delete key
     end
 
@@ -241,7 +238,7 @@ module Gitolite
 
     # Commits all staged changes and pushes back to origin
     #
-    def save_and_apply()
+    def save_and_apply
       save
       apply
     end
@@ -266,9 +263,7 @@ module Gitolite
     #
     def update
       # Reset --hard repo before update
-      if @settings[:reset_before_update]
-        reset!
-      end
+      reset! if @settings[:reset_before_update]
 
       # Fetch changes from origin
       @repo.fetch('origin', credentials: @credentials)
