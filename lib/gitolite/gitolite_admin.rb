@@ -205,8 +205,8 @@ module Gitolite
 
       # Process ssh keys (if loaded, i.e. may be modified)
       if @ssh_keys
-        files = list_keys.map{|f| relative_key_path(f) }
-        keys  = @ssh_keys.values.map{|f| f.map {|t| t.relative_path}}.flatten
+        files = list_keys.map { |f| relative_key_path(f) }
+        keys  = @ssh_keys.values.map { |f| f.map { |t| t.relative_path } }.flatten
 
         to_remove = (files - keys).each do |key|
           SSHKey.remove(key, @key_dir_path)
