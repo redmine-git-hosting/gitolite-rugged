@@ -17,16 +17,17 @@ module Gitolite
 
 
     def initialize(config)
-      @repos = {}
-      @groups = {}
+      @repos    = {}
+      @groups   = {}
       @filename = File.basename(config)
       process_config(config)
     end
 
 
     # TODO: merge repo unless overwrite = true
+    #
     def add_repo(repo, overwrite = false)
-      raise ArgumentError, "Repo must be of type Gitolite::Config::Repo!" unless repo.instance_of? Gitolite::Config::Repo
+      raise ArgumentError, 'Repo must be of type Gitolite::Config::Repo!' unless repo.instance_of? Gitolite::Config::Repo
       @repos[repo.name] = repo
     end
 
@@ -50,7 +51,7 @@ module Gitolite
 
 
     def add_group(group, overwrite = false)
-      raise ArgumentError, "Group must be of type Gitolite::Config::Group!" unless group.instance_of? Gitolite::Config::Group
+      raise ArgumentError, 'Group must be of type Gitolite::Config::Group!' unless group.instance_of? Gitolite::Config::Group
       @groups[group.name] = group
     end
 
@@ -73,16 +74,16 @@ module Gitolite
     end
 
 
-    def to_file(path=".", filename=@filename)
+    def to_file(path = '.', filename = @filename)
       FileUtils.mkdir_p(path) unless File.directory?(path)
 
       new_conf = File.join(path, filename)
-      File.open(new_conf, "w") do |f|
+      File.open(new_conf, 'w') do |f|
         f.sync = true
 
         # Output groups
         dep_order = build_groups_depgraph
-        dep_order.each {|group| f.write group.to_s }
+        dep_order.each { |group| f.write group.to_s }
 
         gitweb_descs = []
         @repos.sort.each do |k, v|
@@ -106,9 +107,10 @@ module Gitolite
 
     # Based on
     # https://github.com/sitaramc/gitolite/blob/pu/src/gl-compile-conf#cleanup_conf_line
+    #
     def cleanup_config_line(line)
       # remove comments, even those that happen inline
-      line.gsub!(/^((".*?"|[^#"])*)#.*/) {|m| m=$1}
+      line.gsub!(/^((".*?"|[^#"])*)#.*/) { |m| m = $1 }
 
       # fix whitespace
       line.gsub!('=', ' = ')
@@ -118,12 +120,13 @@ module Gitolite
 
 
     def process_config(config)
-      context = [] #will store our context for permissions or config declarations
+      # will store our context for permissions or config declarations
+      context = []
 
       # On first call with a custom *.conf, the config might not yet exist
       return unless File.exists?(config)
 
-      #Read each line of our config
+      # Read each line of our config
       File.open(config, 'r').each do |l|
 
         line = cleanup_config_line(l)
@@ -131,102 +134,102 @@ module Gitolite
 
         case line
 
-          # found a repo definition
-          when /^repo (.*)/
-            #Empty our current context
-            context = []
+        # found a repo definition
+        when /^repo (.*)/
+          # Empty our current context
+          context = []
 
-            repos = $1.split
-            repos.each do |r|
-              context << r
+          repos = $1.split
+          repos.each do |r|
+            context << r
+            @repos[r] = Repo.new(r) unless has_repo?(r)
+          end
 
-              @repos[r] = Repo.new(r) unless has_repo?(r)
-            end
+        # repo permissions
+        when /^(-|C|R|RW\+?(?:C?D?|D?C?)M?) (.* )?= (.+)/
+          perm = $1
+          refex = $2 || ""
+          users = $3.split
 
-          # repo permissions
-          when /^(-|C|R|RW\+?(?:C?D?|D?C?)M?) (.* )?= (.+)/
-            perm = $1
-            refex = $2 || ""
-            users = $3.split
+          context.each do |c|
+            @repos[c].add_permission(perm, refex, users)
+          end
 
-            context.each do |c|
-              @repos[c].add_permission(perm, refex, users)
-            end
+        # repo git config
+        when /^config (.+) = ?(.*)/
+          key = $1
+          value = $2
 
-          # repo git config
-          when /^config (.+) = ?(.*)/
-            key = $1
-            value = $2
+          context.each do |c|
+            @repos[c].set_git_config(key, value)
+          end
 
-            context.each do |c|
-              @repos[c].set_git_config(key, value)
-            end
+        # repo gitolite option
+        when /^option (.+) = (.*)/
+          key = $1
+          value = $2
 
-          # repo gitolite option
-          when /^option (.+) = (.*)/
-            key = $1
-            value = $2
+          raise ParseError, "Missing gitolite option value for repo: #{repo} and key: #{key}" if value.nil?
 
-            raise ParseError, "Missing gitolite option value for repo: #{repo} and key: #{key}" if value.nil?
+          context.each do |c|
+            @repos[c].set_gitolite_option(key, value)
+          end
 
-            context.each do |c|
-              @repos[c].set_gitolite_option(key, value)
-            end
+        # group definition
+        when /^#{Group::PREPEND_CHAR}(\S+) = ?(.*)/
+          group = $1
+          users = $2.split
 
-          # group definition
-          when /^#{Group::PREPEND_CHAR}(\S+) = ?(.*)/
-            group = $1
-            users = $2.split
+          @groups[group] = Group.new(group) unless has_group?(group)
+          @groups[group].add_users(users)
 
-            @groups[group] = Group.new(group) unless has_group?(group)
-            @groups[group].add_users(users)
+        # gitweb definition
+        when /^(\S+)(?: "(.*?)")? = "(.*)"$/
+          repo = $1
+          owner = $2
+          description = $3
 
-          # gitweb definition
-          when /^(\S+)(?: "(.*?)")? = "(.*)"$/
-            repo = $1
-            owner = $2
-            description = $3
+          # Check for missing description
+          raise ParseError, "Missing Gitweb description for repo: #{repo}" if description.nil?
 
-            #Check for missing description
-            raise ParseError, "Missing Gitweb description for repo: #{repo}" if description.nil?
+          # Check for groups
+          raise ParseError, "Gitweb descriptions cannot be set for groups" if repo =~ /@.+/
 
-            #Check for groups
-            raise ParseError, "Gitweb descriptions cannot be set for groups" if repo =~ /@.+/
-
-            if has_repo? repo
-              r = @repos[repo]
-            else
-              r = Repo.new(repo)
-              add_repo(r)
-            end
-
-            r.owner = owner
-            r.description = description
-
-          when /^include "(.+)"/
-            #TODO: implement includes
-            #ignore includes for now
-
-          when /^subconf (\S+)$/
-            #TODO: implement subconfs
-            #ignore subconfs for now
-
+          if has_repo? repo
+            r = @repos[repo]
           else
-            raise ParseError, "'#{line}' cannot be processed"
+            r = Repo.new(repo)
+            add_repo(r)
+          end
+
+          r.owner = owner
+          r.description = description
+
+        when /^include "(.+)"/
+          #TODO: implement includes
+          #ignore includes for now
+
+        when /^subconf (\S+)$/
+          #TODO: implement subconfs
+          #ignore subconfs for now
+
+        else
+          raise ParseError, "'#{line}' cannot be processed"
         end
       end
     end
 
 
     # Normalizes the various different input objects to Strings
+    #
     def normalize_name(context, constant = nil)
       case context
-        when constant
-          context.name
-        when Symbol
-          context.to_s
-        else
-          context
+      when constant
+        context.name
+      when Symbol
+        context.to_s
+      else
+        context
       end
     end
 
@@ -236,10 +239,10 @@ module Gitolite
         # Could use Object.const_get to figure out the constant here
         # but for only two cases, this is more readable
         case $1
-          when "repo"
-            normalize_name(args[0], Gitolite::Config::Repo)
-          when "group"
-            normalize_name(args[0], Gitolite::Config::Group)
+        when 'repo'
+          normalize_name(args[0], Gitolite::Config::Repo)
+        when 'group'
+          normalize_name(args[0], Gitolite::Config::Group)
         end
       else
         super
@@ -249,6 +252,7 @@ module Gitolite
 
     # Builds a dependency tree from the groups in order to ensure all groups
     # are defined before they are used
+    #
     def build_groups_depgraph
       dp = ::GRATR::Digraph.new
 
@@ -257,7 +261,7 @@ module Gitolite
         dp.add_vertex! group
 
         # Select group names from the users
-        subgroups = group.users.select {|u| u =~ /^#{Group::PREPEND_CHAR}.*$/}.map{|g| get_group g.gsub(Group::PREPEND_CHAR, '') }
+        subgroups = group.users.select { |u| u =~ /^#{Group::PREPEND_CHAR}.*$/ }.map { |g| get_group g.gsub(Group::PREPEND_CHAR, '') }
 
         subgroups.each do |subgroup|
           dp.add_edge! subgroup, group
@@ -275,12 +279,14 @@ module Gitolite
     end
 
 
-    #Raised when something in a config fails to parse properly
+    # Raised when something in a config fails to parse properly
+    #
     class ParseError < RuntimeError
     end
 
 
     # Raised when group dependencies cannot be suitably resolved for output
+    #
     class GroupDependencyError < RuntimeError
     end
 
