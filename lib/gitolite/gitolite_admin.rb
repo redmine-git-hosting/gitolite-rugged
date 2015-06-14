@@ -186,7 +186,7 @@ module Gitolite
     #
     def reload!
       @ssh_keys = load_keys
-      @config = load_config
+      @config   = load_config
     end
 
 
