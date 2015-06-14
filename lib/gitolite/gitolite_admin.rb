@@ -29,39 +29,6 @@ module Gitolite
     }
 
 
-    class << self
-
-      # Checks if the given path is a gitolite-admin repository.
-      # A valid repository contains a conf folder, keydir folder,
-      # and a configuration file within the conf folder.
-      #
-      def is_gitolite_admin_repo?(dir)
-        # First check if it is a git repository
-        begin
-          repo = Rugged::Repository.new(dir)
-          return false if repo.empty?
-        rescue Rugged::RepositoryError, Rugged::OSError
-          return false
-        end
-
-        # Check if config file, key directory exist
-        [
-          File.join(dir, DEFAULTS[:config_dir]),
-          File.join(dir, DEFAULTS[:key_dir]),
-          File.join(dir, DEFAULTS[:config_dir], DEFAULTS[:config_file])
-        ].each { |f| return false unless File.exists?(f) }
-
-        true
-      end
-
-
-      def admin_url(settings)
-        ['ssh://', settings[:git_user], '@', settings[:host], '/gitolite-admin.git'].join
-      end
-
-    end
-
-
     # Intialize with the path to
     # the gitolite-admin repository
     #
@@ -114,6 +81,39 @@ module Gitolite
       end
 
       reload!
+    end
+
+
+    class << self
+
+      # Checks if the given path is a gitolite-admin repository.
+      # A valid repository contains a conf folder, keydir folder,
+      # and a configuration file within the conf folder.
+      #
+      def is_gitolite_admin_repo?(dir)
+        # First check if it is a git repository
+        begin
+          repo = Rugged::Repository.new(dir)
+          return false if repo.empty?
+        rescue Rugged::RepositoryError, Rugged::OSError
+          return false
+        end
+
+        # Check if config file, key directory exist
+        [
+          File.join(dir, DEFAULTS[:config_dir]),
+          File.join(dir, DEFAULTS[:key_dir]),
+          File.join(dir, DEFAULTS[:config_dir], DEFAULTS[:config_file])
+        ].each { |f| return false unless File.exists?(f) }
+
+        true
+      end
+
+
+      def admin_url(settings)
+        ['ssh://', settings[:git_user], '@', settings[:host], '/gitolite-admin.git'].join
+      end
+
     end
 
 
