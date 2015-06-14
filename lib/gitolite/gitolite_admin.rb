@@ -3,7 +3,7 @@ require 'pathname'
 module Gitolite
   class GitoliteAdmin
 
-    attr_accessor :repo
+    attr_reader :repo
 
     # Default settings
     DEFAULTS = {
@@ -171,7 +171,7 @@ module Gitolite
     # git repo to HEAD
     #
     def reset!
-      @repo.reset('origin/master', :hard)
+      repo.reset('origin/master', :hard)
     end
 
 
@@ -189,7 +189,7 @@ module Gitolite
     #
     def save(commit_msg = nil)
       # Add all changes to index (staging area)
-      index = @repo.index
+      index = repo.index
 
       # Process config file (if loaded, i.e. may be modified)
       if @config
@@ -218,12 +218,12 @@ module Gitolite
       end
 
       # Write index to git and resync fs
-      commit_tree = index.write_tree(@repo)
+      commit_tree = index.write_tree(repo)
       index.write
 
       commit_author = @commit_author.merge(time: Time.now)
 
-      Rugged::Commit.create(@repo,
+      Rugged::Commit.create(repo,
         author:     commit_author,
         committer:  commit_author,
         message:    commit_msg || @settings[:commit_msg],
@@ -237,7 +237,7 @@ module Gitolite
     # Push back to origin
     #
     def apply
-      @repo.push('origin', ['refs/heads/master'], credentials: @credentials)
+      repo.push('origin', ['refs/heads/master'], credentials: @credentials)
     end
 
 
@@ -271,20 +271,20 @@ module Gitolite
       reset! if @settings[:reset_before_update]
 
       # Fetch changes from origin
-      @repo.fetch('origin', credentials: @credentials)
+      repo.fetch('origin', credentials: @credentials)
 
       # Currently, only merging from origin/master into master is supported.
-      master = @repo.references['refs/heads/master'].target
-      origin_master = @repo.references['refs/remotes/origin/master'].target
+      master = repo.references['refs/heads/master'].target
+      origin_master = repo.references['refs/remotes/origin/master'].target
 
       # Create the merged index in memory
       merge_index = repo.merge_commits(master, origin_master)
 
       # Complete the merge by comitting it
       merge_commit =
-        Rugged::Commit.create(@repo,
+        Rugged::Commit.create(repo,
           parents:    [master, origin_master],
-          tree:       merge_index.write_tree(@repo),
+          tree:       merge_index.write_tree(repo),
           message:    '[gitolite-rugged] Merged `origin/master` into `master`',
           author:     @commit_author,
           committer:  @commit_author,
