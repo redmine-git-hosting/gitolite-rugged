@@ -20,6 +20,8 @@ module Gitolite
       key_subdir:     '',
       config_file:    'gitolite.conf',
       lock_file_path: '.lock',
+      local_branch:   'master',
+      remote_branch:  'master',
 
       # Repo settings
       update_on_init:      true,
@@ -278,18 +280,17 @@ module Gitolite
       repo.fetch('origin', credentials: credentials)
 
       # Create the merged index in memory
-      merge_index = repo.merge_commits(local_branch, distant_branch)
+      merge_index = repo.merge_commits(local_branch, remote_branch)
 
       # Complete the merge by comitting it
-      merge_commit =
-        Rugged::Commit.create(repo,
-          parents:    [local_branch, distant_branch],
-          tree:       merge_index.write_tree(repo),
-          update_ref: update_ref,
-          message:    update_message,
-          author:     commit_author,
-          committer:  commit_author
-        )
+      Rugged::Commit.create(repo,
+        parents:    [local_branch, remote_branch],
+        tree:       merge_index.write_tree(repo),
+        update_ref: update_ref,
+        message:    update_message,
+        author:     commit_author,
+        committer:  commit_author
+      )
 
       reload!
     end
@@ -415,32 +416,22 @@ module Gitolite
 
 
       def local_branch
-        repo.references["refs/heads/#{local_branch_name}"].target
+        repo.references["refs/heads/#{@settings[:local_branch]}"].target
       end
 
 
-      def distant_branch
-        repo.references["refs/remotes/origin/#{distant_branch_name}"].target
-      end
-
-
-      def local_branch_name
-        'master'
-      end
-
-
-      def distant_branch_name
-        'master'
+      def remote_branch
+        repo.references["refs/remotes/origin/#{@settings[:remote_branch]}"].target
       end
 
 
       def update_ref
-        "refs/heads/#{local_branch_name}"
+        "refs/heads/#{@settings[:local_branch]}"
       end
 
 
       def update_message
-        "[gitolite-rugged] Merged `origin/#{distant_branch_name}` into `#{local_branch_name}`"
+        "[gitolite-rugged] Merged `origin/#{@settings[:remote_branch]}` into `#{@settings[:local_branch]}`"
       end
 
 
