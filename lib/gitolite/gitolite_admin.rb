@@ -371,14 +371,20 @@ module Gitolite
 
 
       def save_ssh_keys(index)
-        files = list_keys.map { |f| relative_key_path(f) }
-        keys  = @ssh_keys.values.map { |f| f.map { |t| t.relative_path } }.flatten
+        remove_ssh_keys(index)
+        add_ssh_keys(index)
+      end
 
-        (files - keys).each do |key|
+
+      def remove_ssh_keys(index)
+        (current_files - current_keys).each do |key|
           SSHKey.remove(key, key_dir_path)
           index.remove File.join(relative_key_dir, key)
         end
+      end
 
+
+      def add_ssh_keys(index)
         @ssh_keys.each_value do |key|
           # Write only keys from sets that has been modified
           next if key.respond_to?(:dirty?) && !key.dirty?
@@ -387,6 +393,16 @@ module Gitolite
             index.add File.join(relative_key_dir, k.relative_path)
           end
         end
+      end
+
+
+      def current_files
+        list_keys.map { |f| relative_key_path(f) }
+      end
+
+
+      def current_keys
+        @ssh_keys.values.map { |f| f.map { |t| t.relative_path } }.flatten
       end
 
 
