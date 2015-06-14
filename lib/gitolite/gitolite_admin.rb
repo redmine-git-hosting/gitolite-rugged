@@ -68,8 +68,6 @@ module Gitolite
       @config_file_path = File.join(@config_dir_path, @settings[:config_file])
       @key_dir_path     = File.join(@path, relative_key_dir)
 
-      @commit_author = { email: @settings[:author_email], name: @settings[:author_name] }
-
       if self.class.is_gitolite_admin_repo?(path)
         @repo = Rugged::Repository.new(path, credentials: @credentials )
         # Update repository
@@ -119,6 +117,11 @@ module Gitolite
 
     def admin_url
       GitoliteAdmin.admin_url(@settings)
+    end
+
+
+    def commit_author
+      { email: @settings[:author_email], name: @settings[:author_name] }.clone
     end
 
 
@@ -221,15 +224,15 @@ module Gitolite
       commit_tree = index.write_tree(repo)
       index.write
 
-      commit_author = @commit_author.merge(time: Time.now)
+      author = commit_author.merge(time: Time.now)
 
       Rugged::Commit.create(repo,
-        author:     commit_author,
-        committer:  commit_author,
-        message:    commit_msg || @settings[:commit_msg],
         parents:    [repo.head.target],
         tree:       commit_tree,
-        update_ref: 'HEAD'
+        update_ref: 'HEAD',
+        message:    (commit_msg || @settings[:commit_msg]),
+        author:     author,
+        committer:  author
       )
     end
 
@@ -273,22 +276,18 @@ module Gitolite
       # Fetch changes from origin
       repo.fetch('origin', credentials: @credentials)
 
-      # Currently, only merging from origin/master into master is supported.
-      master = repo.references['refs/heads/master'].target
-      origin_master = repo.references['refs/remotes/origin/master'].target
-
       # Create the merged index in memory
-      merge_index = repo.merge_commits(master, origin_master)
+      merge_index = repo.merge_commits(local_branch, distant_branch)
 
       # Complete the merge by comitting it
       merge_commit =
         Rugged::Commit.create(repo,
-          parents:    [master, origin_master],
+          parents:    [local_branch, distant_branch],
           tree:       merge_index.write_tree(repo),
-          message:    '[gitolite-rugged] Merged `origin/master` into `master`',
-          author:     @commit_author,
-          committer:  @commit_author,
-          update_ref: 'refs/heads/master'
+          update_ref: update_ref,
+          message:    update_message,
+          author:     commit_author,
+          committer:  commit_author
         )
 
       reload!
@@ -296,6 +295,36 @@ module Gitolite
 
 
     private
+
+
+      def local_branch
+        repo.references["refs/heads/#{local_branch_name}"].target
+      end
+
+
+      def distant_branch
+        repo.references["refs/remotes/origin/#{distant_branch_name}"].target
+      end
+
+
+      def local_branch_name
+        'master'
+      end
+
+
+      def distant_branch_name
+        'master'
+      end
+
+
+      def update_ref
+        "refs/heads/#{local_branch_name}"
+      end
+
+
+      def update_message
+        "[gitolite-rugged] Merged `origin/#{distant_branch_name}` into `#{local_branch_name}`"
+      end
 
 
       # Clone the gitolite-admin repo
