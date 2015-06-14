@@ -20,37 +20,31 @@ module Gitolite
 
         # Owner is the basename of the key
         # i.e., <owner>/<location>/<owner>.pub
-        owner = File.basename(key, ".pub")
+        owner = File.basename(key, '.pub')
 
         # Location is the middle section of the path, if any
-        location = self.location_from_path(File.dirname(key), owner)
+        location = location_from_path(File.dirname(key), owner)
 
         # Use string key constructor
-        self.from_string(File.read(key), owner, location)
+        from_string(File.read(key), owner, location)
       end
 
 
       # Construct a SSHKey from a string
       #
-      def from_string(key_string, owner, location = "")
-        if owner.nil?
-          raise ArgumentError, "owner was nil, you must specify an owner"
-        end
+      def from_string(key_string, owner, location = '')
+        raise ArgumentError, 'Owner was nil, you must specify an owner' if owner.nil?
 
         # Get parts of the key
         type, blob, email = key_string.split
 
         # We need at least a type or blob
-        if type.nil? || blob.nil?
-          raise ArgumentError, "'#{key_string}' is not a valid SSH key string"
-        end
+        raise ArgumentError, "'#{key_string}' is not a valid SSH key string" if type.nil? || blob.nil?
 
         # If the key didn't have an email, just use the owner
-        if email.nil?
-          email = owner
-        end
+        email = owner if email.nil?
 
-        self.new(type, blob, email, owner, location)
+        new(type, blob, email, owner, location)
       end
 
 
@@ -66,18 +60,12 @@ module Gitolite
       #
       def location_from_path(path, owner)
         keyroot = File.dirname(path)
-        if File.basename(keyroot) == owner
-          File.basename(path)
-        else
-          ''
-        end
+        File.basename(keyroot) == owner ? File.basename(path) : ''
       end
 
 
       def delete_dir_if_empty(dir)
-        if File.directory?(dir) && Dir["#{dir}/*"].empty?
-          Dir.rmdir(dir)
-        end
+        Dir.rmdir(dir) if File.directory?(dir) && Dir["#{dir}/*"].empty?
       rescue => e
         STDERR.puts("Warning: Couldn't delete empty directory: #{e.message}")
       end
@@ -90,7 +78,7 @@ module Gitolite
       #
       def remove(key_file, key_dir_path)
         abs_key_path = File.join(key_dir_path, key_file)
-        key = self.from_file(abs_key_path)
+        key = from_file(abs_key_path)
 
         # Remove the file itself
         File.unlink(abs_key_path)
@@ -98,22 +86,21 @@ module Gitolite
         key_owner_dir = File.join(key_dir_path, key.owner)
 
         # Remove the location, if it exists and is empty
-        if key.location
-          self.delete_dir_if_empty(File.join(key_owner_dir, key.location))
-        end
+        delete_dir_if_empty(File.join(key_owner_dir, key.location)) if key.location
+
 
         # Remove the owner dir, if empty
-        self.delete_dir_if_empty(key_owner_dir)
+        delete_dir_if_empty(key_owner_dir)
       end
+
     end
 
 
-    def initialize(type, blob, email, owner = nil, location = "")
-      @type = type
-      @blob = blob
-      @email = email
-
-      @owner = owner || email
+    def initialize(type, blob, email, owner = nil, location = '')
+      @type     = type
+      @blob     = blob
+      @email    = email
+      @owner    = owner || email
       @location = location
     end
 
@@ -127,21 +114,21 @@ module Gitolite
       # Ensure multi-key directory structure
       # <keydir>/<owner>/<location?>/<owner>.pub
       key_dir  = File.join(path, @owner, @location)
-      key_file = File.join(key_dir, self.filename)
+      key_file = File.join(key_dir, filename)
 
       # Ensure subdirs exist
       FileUtils.mkdir_p(key_dir) unless File.directory?(key_dir)
 
-      File.open(key_file, "w") do |f|
+      File.open(key_file, 'w') do |f|
         f.sync = true
-        f.write(self.to_s)
+        f.write(to_s)
       end
       key_file
     end
 
 
     def relative_path
-      File.join(@owner, @location, self.filename)
+      File.join(@owner, @location, filename)
     end
 
 
