@@ -117,6 +117,11 @@ module Gitolite
     end
 
 
+    def admin_url
+      GitoliteAdmin.admin_url(@settings)
+    end
+
+
     # Returns the relative directory to the gitolite config file location.
     # I.e., settings[config_dir]/settings[config_file]
     # Defaults to 'conf/gitolite.conf'
@@ -304,7 +309,7 @@ module Gitolite
       #
       def clone
         FileUtils.rm_rf(File.expand_path(@path)) if Dir.exists?(File.expand_path(@path))
-        Rugged::Repository.clone_at(GitoliteAdmin.admin_url(@settings), File.expand_path(@path), credentials: @credentials)
+        Rugged::Repository.clone_at(admin_url, File.expand_path(@path), credentials: @credentials)
       end
 
 
