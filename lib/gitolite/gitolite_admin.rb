@@ -333,8 +333,7 @@ module Gitolite
 
         list_keys.each do |key|
           new_key = SSHKey.from_file(key)
-          owner = new_key.owner
-          keys[owner] << new_key
+          keys[new_key.owner] << new_key
         end
 
         # Mark key sets as unmodified (for dirty checking)
