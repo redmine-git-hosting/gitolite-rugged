@@ -108,7 +108,7 @@ As in the [Gitolite Config](http://gitolite.com/gitolite/groups.html) you can de
 
 ## Copyrights & License
 
-gitolite-rugged is completely free and open source and released under the [MIT License](https://github.com/oliverguenther/gitolite/blob/devel/LICENSE.txt).
+gitolite-rugged is completely free and open source and released under the [MIT License](https://github.com/oliverguenther/gitolite/blob/devel/LICENSE).
 
 Copyright (c) 2015 Nicolas Rodriguez (nrodriguez@jbox-web.com), JBox Web (http://www.jbox-web.com)
 
