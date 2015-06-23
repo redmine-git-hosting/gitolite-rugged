@@ -93,16 +93,11 @@ module Gitolite
         true
       end
 
-
-      def admin_url(settings)
-        ['ssh://', settings[:git_user], '@', settings[:hostname], '/gitolite-admin.git'].join
-      end
-
     end
 
 
     def admin_url
-      GitoliteAdmin.admin_url(@settings)
+      ['ssh://', @settings[:git_user], '@', @settings[:hostname], '/gitolite-admin.git'].join
     end
 
 
