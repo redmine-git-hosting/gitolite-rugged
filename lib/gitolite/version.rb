@@ -1,3 +1,3 @@
 module Gitolite
-  VERSION = "1.0.0-devel"
+  VERSION = "1.2.0"
 end
