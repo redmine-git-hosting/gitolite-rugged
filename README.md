@@ -15,15 +15,23 @@ It provides these functionalities :
 * Gitolite Admin Repository Bootstrapping
 
 ## Requirements ##
-* Ruby 1.9.x or 2.0.x
+* Ruby 2.x
 * a working [gitolite](https://github.com/sitaramc/gitolite) installation
-* The [rugged](https://github.com/libgit2/rugged) bindings to libgit2 with SSH-key credentials added (Version >= 0.21 or dev branch).
 
 ## Installation ##
 
-Put this in your ```Gemfile``` :
+Install dependencies :
 
-    gem 'gitolite-rugged', git: 'https://github.com/jbox-web/gitolite-rugged.git', branch: 'v1.0.0'
+    # On Debian/Ubuntu
+    root# apt-get install build-essential libssh2-1 libssh2-1-dev cmake libgpg-error-dev
+
+    # On Fedora/CentoS/RedHat
+    root# yum groupinstall "Development Tools"
+    root# yum install libssh2 libssh2-devel cmake libgpg-error-devel
+
+Then put this in your ```Gemfile``` :
+
+    gem 'gitolite-rugged', git: 'https://github.com/jbox-web/gitolite-rugged.git', tag: '1.2.0'
 
 then
 
@@ -39,13 +47,13 @@ See it as a basic check that your gitolite installation was correctly set up.
 
 In both cases, use the following code to create an instance of the manager:
 
-	settings = { :public_key => '~/.ssh/id_rsa.pub', :private_key => '~/.ssh/id_rsa' }
-	admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
+  settings = { :public_key => '~/.ssh/id_rsa.pub', :private_key => '~/.ssh/id_rsa' }
+  admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
 
 For cloning and pushing to the gitolite-admin.git, you have to provide several options to `GitoliteAdmin` in the settings hash. The following keys are used.
 
 * **:git_user** The git user to SSH to (:git_user@localhost:gitolite-admin.git), defaults to 'git'
-* **:host** Hostname for clone url. Defaults to 'localhost'
+* **:hostname** Hostname for clone url. Defaults to 'localhost'
 * **:private_key** The key file containing the private SSH key for :git_user
 * **:public_key** The key file containing the public SSH key for :git_user
 * **:author_name:** The git author name to commit with (default: 'gitolite-rugged gem')
@@ -56,14 +64,14 @@ For cloning and pushing to the gitolite-admin.git, you have to provide several o
 
 To add a key, create a `SSHKey` object and use the `add_key(key)` method of GitoliteAdmin.
 
-	# From filesystem
-	key_from_file = SSHKey.from_file("/home/alice/.ssh/id_rsa.pub")
+    # From filesystem
+    key_from_file = SSHKey.from_file("/home/alice/.ssh/id_rsa.pub")
 
-	# From String, which requires us to add an owner manually
-	key_from_string = SSHKey.from_string('ssh-rsa AAAAB3N/* .... */JjZ5SgfIKab bob@localhost', 'bob')
+    # From String, which requires us to add an owner manually
+    key_from_string = SSHKey.from_string('ssh-rsa AAAAB3N/* .... */JjZ5SgfIKab bob@localhost', 'bob')
 
-	admin.add_key(key_from_string)
-	admin.add_key(key_from_file)
+    admin.add_key(key_from_string)
+    admin.add_key(key_from_file)
 
 Note that you can add a *location* using the syntax described in [the Gitolite documentation](http://gitolite.com/gitolite/users.html#old-style-multi-keys).
 
@@ -76,11 +84,11 @@ You can also manually call `admin.save` to commit the changes locally, but not p
 
 To add a new repository, we first create and configure it, and then add it to the memory representation of gitolite:
 
-	repo = Gitolite::Config::Repo.new('foobar')
-	repo.add_permission("RW+", "alice", "bob")
+    repo = Gitolite::Config::Repo.new('foobar')
+    repo.add_permission("RW+", "alice", "bob")
 
-	# Add the repo
-	admin.config.add_repo(repo)
+    # Add the repo
+    admin.config.add_repo(repo)
 
 To remove a repository called 'foobar', execute `config.rm_repo('foobar')`.
 
@@ -89,16 +97,17 @@ To remove a repository called 'foobar', execute `config.rm_repo('foobar')`.
 
 As in the [Gitolite Config](http://gitolite.com/gitolite/groups.html) you can define groups as an alias to repos or users.
 
-	# Creating a group
-	devs = Gitolite::Config::Group.new('developers')
-	devs.add_users("alice", "bob")
+    # Creating a group
+    devs = Gitolite::Config::Group.new('developers')
+    devs.add_users("alice", "bob")
 
-	# Adding a group to config
-	admin.config.add_group(devs)
+    # Adding a group to config
+    admin.config.add_group(devs)
 
 
 
 ## Copyrights & License
+
 gitolite-rugged is completely free and open source and released under the [MIT License](https://github.com/oliverguenther/gitolite/blob/devel/LICENSE.txt).
 
 Copyright (c) 2015 Nicolas Rodriguez (nrodriguez@jbox-web.com), JBox Web (http://www.jbox-web.com)
