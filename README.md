@@ -47,8 +47,8 @@ See it as a basic check that your gitolite installation was correctly set up.
 
 In both cases, use the following code to create an instance of the manager:
 
-  settings = { :public_key => '~/.ssh/id_rsa.pub', :private_key => '~/.ssh/id_rsa' }
-  admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
+    settings = { :public_key => '~/.ssh/id_rsa.pub', :private_key => '~/.ssh/id_rsa' }
+    admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
 
 For cloning and pushing to the gitolite-admin.git, you have to provide several options to `GitoliteAdmin` in the settings hash. The following keys are used.
 
