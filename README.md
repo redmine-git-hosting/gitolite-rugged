@@ -114,8 +114,6 @@ Copyright (c) 2015 Nicolas Rodriguez (nrodriguez@jbox-web.com), JBox Web (http:/
 
 Copyright (c) 2014 Oliver Günther (mail@oliverguenther.de)
 
-Based on the jbox-gitolite fork by Nicolas Rodriguez, which itself is based on the original gitolite gem by Stafford Brunk.
-
 Copyright (c) 2013-2014 Nicolas Rodriguez (nrodriguez@jbox-web.com), JBox Web (http://www.jbox-web.com)
 
 Copyright (c) 2011-2013 Stafford Brunk (stafford.brunk@gmail.com)
