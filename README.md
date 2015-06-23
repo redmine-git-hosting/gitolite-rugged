@@ -16,7 +16,7 @@ It provides these functionalities :
 
 ## Requirements ##
 * Ruby 2.x
-* a working [gitolite](https://github.com/sitaramc/gitolite) installation
+* a working [Gitolite](https://github.com/sitaramc/gitolite) installation
 
 ## Installation ##
 
