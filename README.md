@@ -6,9 +6,7 @@
 [![Code Climate](https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/gpa.svg)](https://codeclimate.com/github/jbox-web/gitolite-rugged)
 [![Dependency Status](https://gemnasium.com/jbox-web/gitolite-rugged.svg)](https://gemnasium.com/jbox-web/gitolite-rugged)
 
-### This gem is a fork from the [jbox-gitolite](https://github.com/jbox-web/gitolite) gem employing [libgit2/rugged](https://github.com/libgit2/rugged).
-
-This gem is designed to provide a Ruby interface to the [Gitolite](https://github.com/sitaramc/gitolite) Git backend system.
+This gem is designed to provide a Ruby interface to the [Gitolite](https://github.com/sitaramc/gitolite) Git backend system via [libgit2/rugged](https://github.com/libgit2/rugged) gem.
 
 It provides these functionalities :
 
@@ -17,6 +15,7 @@ It provides these functionalities :
 * Gitolite Admin Repository Bootstrapping
 
 ## Requirements
+
 * Ruby 2.x
 * a working [Gitolite](https://github.com/sitaramc/gitolite) installation
 
