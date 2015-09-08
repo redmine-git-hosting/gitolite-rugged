@@ -1,39 +1,32 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en-us">
   <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Gitolite-rugged by jbox-web</title>
-
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <meta charset="UTF-8">
+    <title>gitolite-rugged by jbox-web</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
   </head>
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Gitolite-rugged</h1>
-        <p>A Ruby interface for the Gitolite Git backend system</p>
+    <section class="page-header">
+      <h1 class="project-name">gitolite-rugged</h1>
+      <h2 class="project-tagline">A Ruby interface for the Gitolite Git backend system</h2>
+      <a href="https://github.com/jbox-web/gitolite-rugged" class="btn">View on GitHub</a>
+      <a href="https://github.com/jbox-web/gitolite-rugged/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/jbox-web/gitolite-rugged/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
 
-        <p class="view"><a href="https://github.com/jbox-web/gitolite-rugged">View the Project on GitHub <small>jbox-web/gitolite-rugged</small></a></p>
-
-
-        <ul>
-          <li><a href="https://github.com/jbox-web/gitolite-rugged/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/jbox-web/gitolite-rugged/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/jbox-web/gitolite-rugged">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
-        <h2>
+    <section class="main-content">
+      <h2>
 <a id="gitolite-rugged" class="anchor" href="#gitolite-rugged" aria-hidden="true"><span class="octicon octicon-link"></span></a>gitolite-rugged</h2>
 
-<p><a href="https://travis-ci.org/jbox-web/gitolite-rugged"><img src="https://travis-ci.org/jbox-web/gitolite-rugged.svg?branch=devel" alt="Build Status"></a>
+<p><a href="https://github.com/jbox-web/gitolite-rugged/blob/devel/LICENSE"><img src="https://img.shields.io/github/license/jbox-web/gitolite-rugged.svg" alt="GitHub license"></a>
+<a href="https://github.com/jbox-web/gitolite-rugged/releases/latest"><img src="https://img.shields.io/github/release/jbox-web/gitolite-rugged.svg" alt="GitHub release"></a>
+<a href="https://travis-ci.org/jbox-web/gitolite-rugged"><img src="https://travis-ci.org/jbox-web/gitolite-rugged.svg?branch=devel" alt="Build Status"></a>
 <a href="https://codeclimate.com/github/jbox-web/gitolite-rugged"><img src="https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/gpa.svg" alt="Code Climate"></a>
-<a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=FBT7E7DAVVEEU"><img src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" alt="Donate"></a></p>
+<a href="https://gemnasium.com/jbox-web/gitolite-rugged"><img src="https://gemnasium.com/jbox-web/gitolite-rugged.svg" alt="Dependency Status"></a></p>
 
 <h3>
 <a id="this-gem-is-a-fork-from-the-jbox-gitolite-gem-employing-libgit2rugged" class="anchor" href="#this-gem-is-a-fork-from-the-jbox-gitolite-gem-employing-libgit2rugged" aria-hidden="true"><span class="octicon octicon-link"></span></a>This gem is a fork from the <a href="https://github.com/jbox-web/gitolite">jbox-gitolite</a> gem employing <a href="https://github.com/libgit2/rugged">libgit2/rugged</a>.</h3>
@@ -52,23 +45,27 @@
 <a id="requirements" class="anchor" href="#requirements" aria-hidden="true"><span class="octicon octicon-link"></span></a>Requirements</h2>
 
 <ul>
-<li>Ruby 1.9.x or 2.0.x</li>
-<li>a working <a href="https://github.com/sitaramc/gitolite">gitolite</a> installation</li>
-<li>The <a href="https://github.com/libgit2/rugged">rugged</a> bindings to libgit2 with SSH-key credentials added (Version &gt;= 0.21 or dev branch).</li>
+<li>Ruby 2.x</li>
+<li>a working <a href="https://github.com/sitaramc/gitolite">Gitolite</a> installation</li>
 </ul>
 
 <h2>
 <a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h2>
 
-<p>Put this in your <code>Gemfile</code> :</p>
+<p>Install dependencies :</p>
 
-<pre><code>gem 'gitolite-rugged', git: 'https://github.com/jbox-web/gitolite-rugged.git', branch: 'v1.0.0'
-</code></pre>
+<div class="highlight highlight-sh"><pre><span class="pl-c"># On Debian/Ubuntu</span>
+root# apt-get install build-essential libssh2-1 libssh2-1-dev cmake libgpg-error-dev
 
-<p>then</p>
+<span class="pl-c"># On Fedora/CentoS/RedHat</span>
+root# yum groupinstall <span class="pl-s"><span class="pl-pds">"</span>Development Tools<span class="pl-pds">"</span></span>
+root# yum install libssh2 libssh2-devel cmake libgpg-error-devel</pre></div>
 
-<pre><code>bundle install
-</code></pre>
+<p>Then put this in your <code>Gemfile</code> :</p>
+
+<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s"><span class="pl-pds">'</span>gitolite-rugged<span class="pl-pds">'</span></span>, <span class="pl-c1">git:</span> <span class="pl-s"><span class="pl-pds">'</span>https://github.com/jbox-web/gitolite-rugged.git<span class="pl-pds">'</span></span>, <span class="pl-c1">tag:</span> <span class="pl-s"><span class="pl-pds">'</span>1.2.0<span class="pl-pds">'</span></span></pre></div>
+
+<p>then <code>bundle install</code>.</p>
 
 <h2>
 <a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h2>
@@ -81,9 +78,8 @@ See it as a basic check that your gitolite installation was correctly set up.</p
 
 <p>In both cases, use the following code to create an instance of the manager:</p>
 
-<pre><code>settings = { :public_key =&gt; '~/.ssh/id_rsa.pub', :private_key =&gt; '~/.ssh/id_rsa' }
-admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
-</code></pre>
+<div class="highlight highlight-ruby"><pre>settings <span class="pl-k">=</span> { <span class="pl-c1">:public_key</span> =&gt; <span class="pl-s"><span class="pl-pds">'</span>~/.ssh/id_rsa.pub<span class="pl-pds">'</span></span>, <span class="pl-c1">:private_key</span> =&gt; <span class="pl-s"><span class="pl-pds">'</span>~/.ssh/id_rsa<span class="pl-pds">'</span></span> }
+admin <span class="pl-k">=</span> <span class="pl-c1">Gitolite</span>::<span class="pl-c1">GitoliteAdmin</span>.<span class="pl-k">new</span>(<span class="pl-s"><span class="pl-pds">'</span>/home/myuser/gitolite-admin<span class="pl-pds">'</span></span>, settings)</pre></div>
 
 <p>For cloning and pushing to the gitolite-admin.git, you have to provide several options to <code>GitoliteAdmin</code> in the settings hash. The following keys are used.</p>
 
@@ -91,7 +87,7 @@ admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
 <li>
 <strong>:git_user</strong> The git user to SSH to (:git_user@localhost:gitolite-admin.git), defaults to 'git'</li>
 <li>
-<strong>:host</strong> Hostname for clone url. Defaults to 'localhost'</li>
+<strong>:hostname</strong> Hostname for clone url. Defaults to 'localhost'</li>
 <li>
 <strong>:private_key</strong> The key file containing the private SSH key for :git_user</li>
 <li>
@@ -109,15 +105,14 @@ admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
 
 <p>To add a key, create a <code>SSHKey</code> object and use the <code>add_key(key)</code> method of GitoliteAdmin.</p>
 
-<pre><code># From filesystem
-key_from_file = SSHKey.from_file("/home/alice/.ssh/id_rsa.pub")
+<div class="highlight highlight-ruby"><pre><span class="pl-c"># From filesystem</span>
+key_from_file <span class="pl-k">=</span> <span class="pl-c1">SSHKey</span>.from_file(<span class="pl-s"><span class="pl-pds">"</span>/home/alice/.ssh/id_rsa.pub<span class="pl-pds">"</span></span>)
 
-# From String, which requires us to add an owner manually
-key_from_string = SSHKey.from_string('ssh-rsa AAAAB3N/* .... */JjZ5SgfIKab bob@localhost', 'bob')
+<span class="pl-c"># From String, which requires us to add an owner manually</span>
+key_from_string <span class="pl-k">=</span> <span class="pl-c1">SSHKey</span>.from_string(<span class="pl-s"><span class="pl-pds">'</span>ssh-rsa AAAAB3N/* .... */JjZ5SgfIKab bob@localhost<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>bob<span class="pl-pds">'</span></span>)
 
 admin.add_key(key_from_string)
-admin.add_key(key_from_file)
-</code></pre>
+admin.add_key(key_from_file)</pre></div>
 
 <p>Note that you can add a <em>location</em> using the syntax described in <a href="http://gitolite.com/gitolite/users.html#old-style-multi-keys">the Gitolite documentation</a>.</p>
 
@@ -129,12 +124,11 @@ You can also manually call <code>admin.save</code> to commit the changes locally
 
 <p>To add a new repository, we first create and configure it, and then add it to the memory representation of gitolite:</p>
 
-<pre><code>repo = Gitolite::Config::Repo.new('foobar')
-repo.add_permission("RW+", "alice", "bob")
+<div class="highlight highlight-ruby"><pre>repo <span class="pl-k">=</span> <span class="pl-c1">Gitolite</span>::<span class="pl-c1">Config</span>::<span class="pl-c1">Repo</span>.<span class="pl-k">new</span>(<span class="pl-s"><span class="pl-pds">'</span>foobar<span class="pl-pds">'</span></span>)
+repo.add_permission(<span class="pl-s"><span class="pl-pds">"</span>RW+<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>alice<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bob<span class="pl-pds">"</span></span>)
 
-# Add the repo
-admin.config.add_repo(repo)
-</code></pre>
+<span class="pl-c"># Add the repo</span>
+admin.config.add_repo(repo)</pre></div>
 
 <p>To remove a repository called 'foobar', execute <code>config.rm_repo('foobar')</code>.</p>
 
@@ -143,36 +137,34 @@ admin.config.add_repo(repo)
 
 <p>As in the <a href="http://gitolite.com/gitolite/groups.html">Gitolite Config</a> you can define groups as an alias to repos or users.</p>
 
-<pre><code># Creating a group
-devs = Gitolite::Config::Group.new('developers')
-devs.add_users("alice", "bob")
+<div class="highlight highlight-ruby"><pre><span class="pl-c"># Creating a group</span>
+devs <span class="pl-k">=</span> <span class="pl-c1">Gitolite</span>::<span class="pl-c1">Config</span>::<span class="pl-c1">Group</span>.<span class="pl-k">new</span>(<span class="pl-s"><span class="pl-pds">'</span>developers<span class="pl-pds">'</span></span>)
+devs.add_users(<span class="pl-s"><span class="pl-pds">"</span>alice<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bob<span class="pl-pds">"</span></span>)
 
-# Adding a group to config
-admin.config.add_group(devs)
-</code></pre>
+<span class="pl-c"># Adding a group to config</span>
+admin.config.add_group(devs)</pre></div>
 
 <h2>
-<a id="copyrights--license" class="anchor" href="#copyrights--license" aria-hidden="true"><span class="octicon octicon-link"></span></a>Copyrights &amp; License</h2>
+<a id="contribute" class="anchor" href="#contribute" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contribute</h2>
 
-<p>gitolite-rugged is completely free and open source and released under the <a href="https://github.com/oliverguenther/gitolite/blob/devel/LICENSE.txt">MIT License</a>.</p>
+<p>You can contribute to this plugin in many ways such as :</p>
 
-<p>Copyright (c) 2015 Nicolas Rodriguez (<a href="mailto:nrodriguez@jbox-web.com">nrodriguez@jbox-web.com</a>), JBox Web (<a href="http://www.jbox-web.com">http://www.jbox-web.com</a>)</p>
+<ul>
+<li>Helping with documentation</li>
+<li>Contributing code (features or bugfixes)</li>
+<li>Reporting a bug</li>
+<li>Submitting translations</li>
+</ul>
 
-<p>Copyright (c) 2014 Oliver Günther (<a href="mailto:mail@oliverguenther.de">mail@oliverguenther.de</a>)</p>
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/jbox-web/gitolite-rugged">gitolite-rugged</a> is maintained by <a href="https://github.com/jbox-web">jbox-web</a>.</span>
 
-<p>Based on the jbox-gitolite fork by Nicolas Rodriguez, which itself is based on the original gitolite gem by Stafford Brunk.</p>
-
-<p>Copyright (c) 2013-2014 Nicolas Rodriguez (<a href="mailto:nrodriguez@jbox-web.com">nrodriguez@jbox-web.com</a>), JBox Web (<a href="http://www.jbox-web.com">http://www.jbox-web.com</a>)</p>
-
-<p>Copyright (c) 2011-2013 Stafford Brunk (<a href="mailto:stafford.brunk@gmail.com">stafford.brunk@gmail.com</a>)</p>
-      </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/jbox-web">jbox-web</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
       </footer>
-    </div>
-    <script src="javascripts/scale.fix.js"></script>
-              <script type="text/javascript">
+
+    </section>
+
+            <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
