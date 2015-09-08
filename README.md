@@ -1,4 +1,6 @@
 ## gitolite-rugged
+
+[![GitHub license](https://img.shields.io/github/license/jbox-web/gitolite-rugged.svg)](https://github.com/jbox-web/gitolite-rugged/blob/devel/LICENSE)
 [![Build Status](https://travis-ci.org/jbox-web/gitolite-rugged.svg?branch=devel)](https://travis-ci.org/jbox-web/gitolite-rugged)
 [![Code Climate](https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/gpa.svg)](https://codeclimate.com/github/jbox-web/gitolite-rugged)
 [![Dependency Status](https://gemnasium.com/jbox-web/gitolite-rugged.svg)](https://gemnasium.com/jbox-web/gitolite-rugged)
