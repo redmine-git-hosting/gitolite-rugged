@@ -24,21 +24,22 @@ It provides these functionalities :
 
 Install dependencies :
 
-    # On Debian/Ubuntu
-    root# apt-get install build-essential libssh2-1 libssh2-1-dev cmake libgpg-error-dev
+```sh
+# On Debian/Ubuntu
+root# apt-get install build-essential libssh2-1 libssh2-1-dev cmake libgpg-error-dev
 
-    # On Fedora/CentoS/RedHat
-    root# yum groupinstall "Development Tools"
-    root# yum install libssh2 libssh2-devel cmake libgpg-error-devel
+# On Fedora/CentoS/RedHat
+root# yum groupinstall "Development Tools"
+root# yum install libssh2 libssh2-devel cmake libgpg-error-devel
+```
 
 Then put this in your ```Gemfile``` :
 
-    gem 'gitolite-rugged', git: 'https://github.com/jbox-web/gitolite-rugged.git', tag: '1.2.0'
+```ruby
+gem 'gitolite-rugged', git: 'https://github.com/jbox-web/gitolite-rugged.git', tag: '1.2.0'
+```
 
-then
-
-    bundle install
-
+then `bundle install`.
 
 ## Usage
 
@@ -49,8 +50,10 @@ See it as a basic check that your gitolite installation was correctly set up.
 
 In both cases, use the following code to create an instance of the manager:
 
-    settings = { :public_key => '~/.ssh/id_rsa.pub', :private_key => '~/.ssh/id_rsa' }
-    admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
+```ruby
+settings = { :public_key => '~/.ssh/id_rsa.pub', :private_key => '~/.ssh/id_rsa' }
+admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
+```
 
 For cloning and pushing to the gitolite-admin.git, you have to provide several options to `GitoliteAdmin` in the settings hash. The following keys are used.
 
@@ -66,17 +69,18 @@ For cloning and pushing to the gitolite-admin.git, you have to provide several o
 
 To add a key, create a `SSHKey` object and use the `add_key(key)` method of GitoliteAdmin.
 
-    # From filesystem
-    key_from_file = SSHKey.from_file("/home/alice/.ssh/id_rsa.pub")
+```ruby
+# From filesystem
+key_from_file = SSHKey.from_file("/home/alice/.ssh/id_rsa.pub")
 
-    # From String, which requires us to add an owner manually
-    key_from_string = SSHKey.from_string('ssh-rsa AAAAB3N/* .... */JjZ5SgfIKab bob@localhost', 'bob')
+# From String, which requires us to add an owner manually
+key_from_string = SSHKey.from_string('ssh-rsa AAAAB3N/* .... */JjZ5SgfIKab bob@localhost', 'bob')
 
-    admin.add_key(key_from_string)
-    admin.add_key(key_from_file)
+admin.add_key(key_from_string)
+admin.add_key(key_from_file)
+```
 
 Note that you can add a *location* using the syntax described in [the Gitolite documentation](http://gitolite.com/gitolite/users.html#old-style-multi-keys).
-
 
 To write out the changes to the keys to the filesystem and push them to gitolite, call `admin.save_and_apply`.
 You can also manually call `admin.save` to commit the changes locally, but not push them.
@@ -86,11 +90,13 @@ You can also manually call `admin.save` to commit the changes locally, but not p
 
 To add a new repository, we first create and configure it, and then add it to the memory representation of gitolite:
 
-    repo = Gitolite::Config::Repo.new('foobar')
-    repo.add_permission("RW+", "alice", "bob")
+```ruby
+repo = Gitolite::Config::Repo.new('foobar')
+repo.add_permission("RW+", "alice", "bob")
 
-    # Add the repo
-    admin.config.add_repo(repo)
+# Add the repo
+admin.config.add_repo(repo)
+```
 
 To remove a repository called 'foobar', execute `config.rm_repo('foobar')`.
 
@@ -99,13 +105,14 @@ To remove a repository called 'foobar', execute `config.rm_repo('foobar')`.
 
 As in the [Gitolite Config](http://gitolite.com/gitolite/groups.html) you can define groups as an alias to repos or users.
 
-    # Creating a group
-    devs = Gitolite::Config::Group.new('developers')
-    devs.add_users("alice", "bob")
+```ruby
+# Creating a group
+devs = Gitolite::Config::Group.new('developers')
+devs.add_users("alice", "bob")
 
-    # Adding a group to config
-    admin.config.add_group(devs)
-
+# Adding a group to config
+admin.config.add_group(devs)
+```
 
 ## Contribute
 
@@ -114,5 +121,3 @@ You can contribute to this plugin in many ways such as :
 * Contributing code (features or bugfixes)
 * Reporting a bug
 * Submitting translations
-
-You can also donate :)
