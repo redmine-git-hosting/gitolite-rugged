@@ -1,12 +1,12 @@
 ## gitolite-rugged
 
 [![GitHub license](https://img.shields.io/github/license/jbox-web/gitolite-rugged.svg)](https://github.com/jbox-web/gitolite-rugged/blob/devel/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/jbox-web/gitolite-rugged.svg)](https://github.com/jbox-web/gitolite-rugged/releases/latest)
 [![Build Status](https://travis-ci.org/jbox-web/gitolite-rugged.svg?branch=devel)](https://travis-ci.org/jbox-web/gitolite-rugged)
 [![Code Climate](https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/gpa.svg)](https://codeclimate.com/github/jbox-web/gitolite-rugged)
 [![Dependency Status](https://gemnasium.com/jbox-web/gitolite-rugged.svg)](https://gemnasium.com/jbox-web/gitolite-rugged)
 
 ### This gem is a fork from the [jbox-gitolite](https://github.com/jbox-web/gitolite) gem employing [libgit2/rugged](https://github.com/libgit2/rugged).
-
 
 This gem is designed to provide a Ruby interface to the [Gitolite](https://github.com/sitaramc/gitolite) Git backend system.
 
@@ -16,11 +16,11 @@ It provides these functionalities :
 * Repositories Management
 * Gitolite Admin Repository Bootstrapping
 
-## Requirements ##
+## Requirements
 * Ruby 2.x
 * a working [Gitolite](https://github.com/sitaramc/gitolite) installation
 
-## Installation ##
+## Installation
 
 Install dependencies :
 
@@ -40,9 +40,9 @@ then
     bundle install
 
 
-## Usage ##
+## Usage
 
-### Bootstrapping the gitolite-admin.git repository ###
+### Bootstrapping the gitolite-admin.git repository
 
 You can have `gitolite-rugged` clone the repository for you on demand, however I would recommend cloning it manually.
 See it as a basic check that your gitolite installation was correctly set up.
@@ -62,7 +62,7 @@ For cloning and pushing to the gitolite-admin.git, you have to provide several o
 * **:author_email** The git author e-mail address to commit with (default: 'gitolite-rugged@localhost')
 * **:commit_msg** The commit message to use when updating the repo (default: 'Commited by the gitolite-rugged gem')
 
-### Managing Public Keys ###
+### Managing Public Keys
 
 To add a key, create a `SSHKey` object and use the `add_key(key)` method of GitoliteAdmin.
 
@@ -82,7 +82,7 @@ To write out the changes to the keys to the filesystem and push them to gitolite
 You can also manually call `admin.save` to commit the changes locally, but not push them.
 
 
-### Managing Repositories ###
+### Managing Repositories
 
 To add a new repository, we first create and configure it, and then add it to the memory representation of gitolite:
 
@@ -95,7 +95,7 @@ To add a new repository, we first create and configure it, and then add it to th
 To remove a repository called 'foobar', execute `config.rm_repo('foobar')`.
 
 
-### Groups ###
+### Groups
 
 As in the [Gitolite Config](http://gitolite.com/gitolite/groups.html) you can define groups as an alias to repos or users.
 
@@ -107,15 +107,12 @@ As in the [Gitolite Config](http://gitolite.com/gitolite/groups.html) you can de
     admin.config.add_group(devs)
 
 
+## Contribute
 
-## Copyrights & License
+You can contribute to this plugin in many ways such as :
+* Helping with documentation
+* Contributing code (features or bugfixes)
+* Reporting a bug
+* Submitting translations
 
-gitolite-rugged is completely free and open source and released under the [MIT License](https://github.com/jbox-web/gitolite-rugged/blob/devel/LICENSE).
-
-Copyright (c) 2015 Nicolas Rodriguez (nrodriguez@jbox-web.com), JBox Web (http://www.jbox-web.com)
-
-Copyright (c) 2014 Oliver Günther (mail@oliverguenther.de)
-
-Copyright (c) 2013-2014 Nicolas Rodriguez (nrodriguez@jbox-web.com), JBox Web (http://www.jbox-web.com)
-
-Copyright (c) 2011-2013 Stafford Brunk (stafford.brunk@gmail.com)
+You can also donate :)
