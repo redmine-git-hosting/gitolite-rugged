@@ -6,6 +6,8 @@
 [![Code Climate](https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/gpa.svg)](https://codeclimate.com/github/jbox-web/gitolite-rugged)
 [![Dependency Status](https://gemnasium.com/jbox-web/gitolite-rugged.svg)](https://gemnasium.com/jbox-web/gitolite-rugged)
 
+### A Ruby interface to manage the Gitolite Git backend system, easy ;)
+
 This gem is designed to provide a Ruby interface to the [Gitolite](https://github.com/sitaramc/gitolite) Git backend system via [libgit2/rugged](https://github.com/libgit2/rugged) gem.
 
 It provides these functionalities :
@@ -112,6 +114,9 @@ devs.add_users("alice", "bob")
 # Adding a group to config
 admin.config.add_group(devs)
 ```
+
+## See also
+
 
 ## Contribute
 
