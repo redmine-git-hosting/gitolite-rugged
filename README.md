@@ -119,6 +119,7 @@ admin.config.add_group(devs)
 
 ## See also
 
+You can checkout the no longer maintain previous version of this lib : [jbox-gitolite](https://github.com/jbox-web/gitolite) (based on [gitlab-grit](https://github.com/gitlabhq/grit)).
 
 ## Contribute
 
