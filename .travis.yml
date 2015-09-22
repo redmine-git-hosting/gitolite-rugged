@@ -3,10 +3,12 @@ rvm:
  - 2.2.0
  - 2.1.0
  - 2.0.0
+sudo: false
+addons:
+  apt:
+    packages:
+    - libicu-dev
 branches:
   only:
     - devel
     - /^v1\..*$/
-before_install:
- - sudo apt-get update -qq
- - sudo apt-get install -qq libicu-dev
