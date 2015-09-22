@@ -7,20 +7,24 @@ module Gitolite
 
     attr_accessor :repos, :groups, :filename
 
-    def self.init(filename = "gitolite.conf")
-      file = Tempfile.new(filename)
-      conf = self.new(file.path)
-      conf.filename = filename #kill suffix added by Tempfile
-      file.close(unlink_now = true)
-      conf
-    end
-
-
     def initialize(config)
       @repos    = {}
       @groups   = {}
       @filename = File.basename(config)
       process_config(config)
+    end
+
+
+    class << self
+
+      def init(filename = 'gitolite.conf')
+        file = Tempfile.new(filename)
+        conf = self.new(file.path)
+        conf.filename = filename #kill suffix added by Tempfile
+        file.close(unlink_now = true)
+        conf
+      end
+
     end
 
 
@@ -78,27 +82,27 @@ module Gitolite
       FileUtils.mkdir_p(path) unless File.directory?(path)
 
       new_conf = File.join(path, filename)
+
       File.open(new_conf, 'w') do |f|
         f.sync = true
 
         # Output groups
-        dep_order = build_groups_depgraph
-        dep_order.each { |group| f.write group.to_s }
+        build_groups_depgraph.each { |group| f.write group.to_s }
 
-        gitweb_descs = []
-        @repos.sort.each do |k, v|
-          f.write "\n"
-          f.write v.to_s
+        # Output repositories
+        @repos.sort.each { |k, v| f.write "\n#{v}" }
 
-          gwd = v.gitweb_description
-          gitweb_descs.push(gwd) unless gwd.nil?
-        end
-
+        # Output descriptions
         f.write "\n"
-        f.write gitweb_descs.join("\n")
+        f.write gitweb_descriptions.join("\n")
       end
 
       new_conf
+    end
+
+
+    def gitweb_descriptions
+      @repos.sort.map { |k, v| v.gitweb_description }.compact
     end
 
 
@@ -148,7 +152,7 @@ module Gitolite
         # repo permissions
         when /^(-|C|R|RW\+?(?:C?D?|D?C?)M?) (.* )?= (.+)/
           perm = $1
-          refex = $2 || ""
+          refex = $2 || ''
           users = $3.split
 
           context.each do |c|
@@ -193,7 +197,7 @@ module Gitolite
           raise ParseError, "Missing Gitweb description for repo: #{repo}" if description.nil?
 
           # Check for groups
-          raise ParseError, "Gitweb descriptions cannot be set for groups" if repo =~ /@.+/
+          raise ParseError, 'Gitweb descriptions cannot be set for groups' if repo =~ /@.+/
 
           if has_repo? repo
             r = @repos[repo]

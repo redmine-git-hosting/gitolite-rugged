@@ -459,6 +459,19 @@ describe Gitolite::Config do
     end
   end
 
+  describe "#gitweb_descriptions" do
+    it 'should return a list of gitweb descriptions' do
+      c = Gitolite::Config.new(File.join(conf_dir, 'complicated.conf'))
+      expect(c.gitweb_descriptions).to eq [
+        "bar = \"A nice place to get drinks\"",
+        "foo = \"Foo is a nice test repo\"",
+        "foobar \"Bob Zilla\" = \"Foobar is top secret\"",
+        "gitolite \"Sitaram Chamarty\" = \"fast, secure, access control for git in a corporate environment\""
+      ]
+    end
+  end
+
+
   describe "#cleanup_config_line" do
     before(:each) do
       @config = Gitolite::Config.init
