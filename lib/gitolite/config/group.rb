@@ -30,7 +30,7 @@ module Gitolite
 
 
       def add_users(*users)
-        fixed_users = users.flatten.map{ |u| u.to_s }
+        fixed_users = users.flatten.map { |u| u.to_s }
         @users.concat(fixed_users).sort!.uniq!
       end
 

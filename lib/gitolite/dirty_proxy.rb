@@ -15,7 +15,7 @@ module Gitolite
       @target.send(method, *args, &block)
     end
 
-    def respond_to?(symbol, include_private=false)
+    def respond_to?(symbol, include_private = false)
       super || [:dirty?, :clean_up!].include?(symbol.to_sym)
     end
 

@@ -9,15 +9,16 @@ module Gitolite
 
       attr_accessor :permissions, :name, :config, :options, :owner, :description
 
+      # Store the perm hash in a lambda since we have to create a new one on every deny rule
+      # The perm hash is stored as a 2D hash, with individual permissions being the first
+      # degree and individual refexes being the second degree.  Both Hashes must respect order
+      #
       def initialize(name)
-        # Store the perm hash in a lambda since we have to create a new one on every deny rule
-        # The perm hash is stored as a 2D hash, with individual permissions being the first
-        # degree and individual refexes being the second degree.  Both Hashes must respect order
-        @perm_hash_lambda = lambda { Hash.new {|k,v| k[v] = Hash.new{|k2, v2| k2[v2] = [] }} }
+        @perm_hash_lambda = lambda { Hash.new { |k, v| k[v] = Hash.new { |k2, v2| k2[v2] = [] } } }
         @permissions = Array.new.push(@perm_hash_lambda.call)
 
-        @name = name
-        @config = {} # git config
+        @name    = name
+        @config  = {} # git config
         @options = {} # gitolite config
       end
 
@@ -27,7 +28,7 @@ module Gitolite
       end
 
 
-      def add_permission(perm, refex = "", *users)
+      def add_permission(perm, refex = '', *users)
         if perm =~ ALLOWED_PERMISSIONS
           #Handle deny rules
           if perm == '-'
@@ -86,13 +87,11 @@ module Gitolite
 
 
       def gitweb_description
-        if @description.nil?
-          nil
-        else
-          desc = "#{@name} "
-          desc += "\"#{@owner}\" " unless @owner.nil?
-          desc += "= \"#{@description}\""
-        end
+        return nil if @description.nil?
+        desc = "#{@name} "
+        desc += "\"#{@owner}\" " unless @owner.nil?
+        desc += "= \"#{@description}\""
+        desc
       end
 
 
