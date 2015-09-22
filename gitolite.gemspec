@@ -25,4 +25,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency 'rspec',     '~> 3.3',  '>= 3.3.0'
   s.add_development_dependency 'forgery',   '~> 0.6',  '>= 0.6.0'
   s.add_development_dependency 'simplecov', '~> 0.10', '>= 0.10.0'
+  s.add_development_dependency 'faker',     '~> 1.5',  '>= 1.5.0'
+  s.add_development_dependency 'sshkey',    '~> 1.7',  '>= 1.7.0'
 end

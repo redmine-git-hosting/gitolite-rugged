@@ -2,7 +2,9 @@ require 'rubygems'
 require 'simplecov'
 require 'forgery'
 require 'rspec'
+require 'faker'
 require 'codeclimate-test-reporter'
+require 'support/helper'
 
 ## Configure SimpleCov
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
@@ -13,10 +15,13 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 ## Start Simplecov
 SimpleCov.start do
   add_filter '/spec/'
+  add_filter '/lib/core_ext'
 end
 
 ## Configure RSpec
 RSpec.configure do |config|
+  include Helper
+
   config.color = true
   config.fail_fast = false
   config.expect_with :rspec do |c|
@@ -25,5 +30,5 @@ RSpec.configure do |config|
 end
 
 require 'gitolite'
-
-include Gitolite
+require 'core_ext/faker/git'
+require 'core_ext/faker/ssh'
