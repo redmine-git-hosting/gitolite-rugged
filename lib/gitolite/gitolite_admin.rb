@@ -7,7 +7,7 @@ module Gitolite
     DEFAULTS = {
       # clone/push url settings
       git_user: 'git',
-      hostname: 'localhost',
+      host: 'localhost',
 
       # Commit settings
       author_name:  'gitolite-rugged gem',
@@ -40,7 +40,7 @@ module Gitolite
     # :git_user: The git user to SSH to (:git_user@localhost:gitolite-admin.git), defaults to 'git'
     # :private_key: The key file containing the private SSH key for :git_user
     # :public_key: The key file containing the public SSH key for :git_user
-    # :host: Hostname for clone url. Defaults to 'localhost'
+    # :host: Host for clone url. Defaults to 'localhost'
     #
     # [Gitolite-Admin]
     # :config_dir: Config directory within gitolite repository (defaults to 'conf')
@@ -97,7 +97,7 @@ module Gitolite
 
 
     def admin_url
-      ['ssh://', @settings[:git_user], '@', @settings[:hostname], '/gitolite-admin.git'].join
+      ['ssh://', @settings[:git_user], '@', @settings[:host], '/gitolite-admin.git'].join
     end
 
 
@@ -200,9 +200,9 @@ module Gitolite
     # to the given path.
     #
     # The repo is cloned from the url
-    # +(:git_user)@(:hostname)/gitolite-admin.git+
+    # +(:git_user)@(:host)/gitolite-admin.git+
     #
-    # The hostname may use an optional :port to allow for custom SSH ports.
+    # The host may use an optional :port to allow for custom SSH ports.
     # E.g., +git@localhost:2222/gitolite-admin.git+
     #
     def clone
