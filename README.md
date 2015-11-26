@@ -59,15 +59,15 @@ admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
 
 For cloning and pushing to the gitolite-admin.git, you have to provide several options to `GitoliteAdmin` in the settings hash. The following keys are used.
 
-      Option      |  Description
-------------------|-------------
-**:git_user**     | The git user to SSH to (:git_user@localhost:gitolite-admin.git), defaults to 'git'
-**:hostname**     | Hostname for clone url. Defaults to 'localhost'
-**:private_key**  | The key file containing the private SSH key for :git_user
-**:public_key**   | The key file containing the public SSH key for :git_user
-**:author_name:** | The git author name to commit with (default: 'gitolite-rugged gem')
-**:author_email** | The git author e-mail address to commit with (default: 'gitolite-rugged@localhost')
-**:commit_msg**   | The commit message to use when updating the repo (default: 'Commited by the gitolite-rugged gem')
+      Option      |   Default   | Description
+------------------|-------------|------------
+**:private_key**  | ```empty``` (this field is mandatory) | Path to the file containing the private SSH key for ```:git_user```
+**:public_key**   | ```empty``` (this field is mandatory) | Path to the file containing the public SSH key for ```:git_user```
+**:git_user**     | ```git``` | The git user to SSH to
+**:hostname**     | ```localhost``` | Hostname for clone url
+**:author_name**  | ```gitolite-rugged gem``` | The git author name to commit with
+**:author_email** | ```gitolite-rugged@localhost``` | The git author e-mail address to commit with
+**:commit_msg**   | ```Commited by the gitolite-rugged gem``` | The commit message to use when updating the repo
 
 ### Managing Public Keys
 
