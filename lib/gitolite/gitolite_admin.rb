@@ -40,10 +40,10 @@ module Gitolite
     #
     # Settings:
     # [Connection]
-    # :git_user: The git user to SSH to (:git_user@localhost:gitolite-admin.git), defaults to 'git'
     # :private_key: The key file containing the private SSH key for :git_user
     # :public_key: The key file containing the public SSH key for :git_user
-    # :host: Hostname for clone url. Defaults to 'localhost'
+    # :git_user: The git user to SSH to (:git_user@localhost:gitolite-admin.git), defaults to 'git'
+    # :hostname: Hostname for clone url. Defaults to 'localhost'
     #
     # [Gitolite-Admin]
     # :config_dir: Config directory within gitolite repository (defaults to 'conf')
