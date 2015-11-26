@@ -23,7 +23,11 @@
 <a href="https://github.com/jbox-web/gitolite-rugged/releases/latest"><img src="https://img.shields.io/github/release/jbox-web/gitolite-rugged.svg" alt="GitHub release"></a>
 <a href="https://travis-ci.org/jbox-web/gitolite-rugged"><img src="https://travis-ci.org/jbox-web/gitolite-rugged.svg?branch=devel" alt="Build Status"></a>
 <a href="https://codeclimate.com/github/jbox-web/gitolite-rugged"><img src="https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/gpa.svg" alt="Code Climate"></a>
+<a href="https://codeclimate.com/github/jbox-web/gitolite-rugged/coverage"><img src="https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/coverage.svg" alt="Test Coverage"></a>
 <a href="https://gemnasium.com/jbox-web/gitolite-rugged"><img src="https://gemnasium.com/jbox-web/gitolite-rugged.svg" alt="Dependency Status"></a></p>
+
+<h3>
+<a id="a-ruby-interface-to-manage-the-gitolite-git-backend-system-easy-" class="anchor" href="#a-ruby-interface-to-manage-the-gitolite-git-backend-system-easy-" aria-hidden="true"><span class="octicon octicon-link"></span></a>A Ruby interface to manage the Gitolite Git backend system, easy ;)</h3>
 
 <p>This gem is designed to provide a Ruby interface to the <a href="https://github.com/sitaramc/gitolite">Gitolite</a> Git backend system via <a href="https://github.com/libgit2/rugged">libgit2/rugged</a> gem.</p>
 
@@ -48,7 +52,7 @@
 
 <p>Install dependencies :</p>
 
-<div class="highlight highlight-sh"><pre><span class="pl-c"># On Debian/Ubuntu</span>
+<div class="highlight highlight-source-shell"><pre><span class="pl-c"># On Debian/Ubuntu</span>
 root# apt-get install build-essential libssh2-1 libssh2-1-dev cmake libgpg-error-dev
 
 <span class="pl-c"># On Fedora/CentoS/RedHat</span>
@@ -57,7 +61,7 @@ root# yum install libssh2 libssh2-devel cmake libgpg-error-devel</pre></div>
 
 <p>Then put this in your <code>Gemfile</code> :</p>
 
-<div class="highlight highlight-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s"><span class="pl-pds">'</span>gitolite-rugged<span class="pl-pds">'</span></span>, <span class="pl-c1">git:</span> <span class="pl-s"><span class="pl-pds">'</span>https://github.com/jbox-web/gitolite-rugged.git<span class="pl-pds">'</span></span>, <span class="pl-c1">tag:</span> <span class="pl-s"><span class="pl-pds">'</span>1.2.0<span class="pl-pds">'</span></span></pre></div>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-k">gem</span> <span class="pl-s"><span class="pl-pds">'</span>gitolite-rugged<span class="pl-pds">'</span></span>, <span class="pl-c1">git:</span> <span class="pl-s"><span class="pl-pds">'</span>https://github.com/jbox-web/gitolite-rugged.git<span class="pl-pds">'</span></span>, <span class="pl-c1">tag:</span> <span class="pl-s"><span class="pl-pds">'</span>1.2.0<span class="pl-pds">'</span></span></pre></div>
 
 <p>then <code>bundle install</code>.</p>
 
@@ -72,7 +76,7 @@ See it as a basic check that your gitolite installation was correctly set up.</p
 
 <p>In both cases, use the following code to create an instance of the manager:</p>
 
-<div class="highlight highlight-ruby"><pre>settings <span class="pl-k">=</span> { <span class="pl-c1">:public_key</span> =&gt; <span class="pl-s"><span class="pl-pds">'</span>~/.ssh/id_rsa.pub<span class="pl-pds">'</span></span>, <span class="pl-c1">:private_key</span> =&gt; <span class="pl-s"><span class="pl-pds">'</span>~/.ssh/id_rsa<span class="pl-pds">'</span></span> }
+<div class="highlight highlight-source-ruby"><pre>settings <span class="pl-k">=</span> { <span class="pl-c1">:public_key</span> =&gt; <span class="pl-s"><span class="pl-pds">'</span>~/.ssh/id_rsa.pub<span class="pl-pds">'</span></span>, <span class="pl-c1">:private_key</span> =&gt; <span class="pl-s"><span class="pl-pds">'</span>~/.ssh/id_rsa<span class="pl-pds">'</span></span> }
 admin <span class="pl-k">=</span> <span class="pl-c1">Gitolite</span>::<span class="pl-c1">GitoliteAdmin</span>.<span class="pl-k">new</span>(<span class="pl-s"><span class="pl-pds">'</span>/home/myuser/gitolite-admin<span class="pl-pds">'</span></span>, settings)</pre></div>
 
 <p>For cloning and pushing to the gitolite-admin.git, you have to provide several options to <code>GitoliteAdmin</code> in the settings hash. The following keys are used.</p>
@@ -81,37 +85,76 @@ admin <span class="pl-k">=</span> <span class="pl-c1">Gitolite</span>::<span cla
 <thead>
 <tr>
 <th>Option</th>
+<th>Default</th>
 <th>Description</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><strong>:git_user</strong></td>
-<td>The git user to SSH to (:git_user@localhost:gitolite-admin.git), defaults to 'git'</td>
-</tr>
-<tr>
-<td><strong>:hostname</strong></td>
-<td>Hostname for clone url. Defaults to 'localhost'</td>
-</tr>
-<tr>
 <td><strong>:private_key</strong></td>
-<td>The key file containing the private SSH key for :git_user</td>
+<td>
+<code>empty</code> (this field is mandatory)</td>
+<td>Path to the file containing the private SSH key for <code>:git_user</code>
+</td>
 </tr>
 <tr>
 <td><strong>:public_key</strong></td>
-<td>The key file containing the public SSH key for :git_user</td>
+<td>
+<code>empty</code> (this field is mandatory)</td>
+<td>Path to the file containing the public SSH key for <code>:git_user</code>
+</td>
 </tr>
 <tr>
-<td><strong>:author_name:</strong></td>
-<td>The git author name to commit with (default: 'gitolite-rugged gem')</td>
+<td><strong>:git_user</strong></td>
+<td><code>git</code></td>
+<td>The git user to SSH to</td>
+</tr>
+<tr>
+<td><strong>:hostname</strong></td>
+<td><code>localhost</code></td>
+<td>Hostname for clone url</td>
+</tr>
+<tr>
+<td><strong>:author_name</strong></td>
+<td><code>gitolite-rugged gem</code></td>
+<td>The git author name to commit with</td>
 </tr>
 <tr>
 <td><strong>:author_email</strong></td>
-<td>The git author e-mail address to commit with (default: 'gitolite-rugged@localhost')</td>
+<td><code>gitolite-rugged@localhost</code></td>
+<td>The git author e-mail address to commit with</td>
 </tr>
 <tr>
 <td><strong>:commit_msg</strong></td>
-<td>The commit message to use when updating the repo (default: 'Commited by the gitolite-rugged gem')</td>
+<td><code>Commited by the gitolite-rugged gem</code></td>
+<td>The commit message to use when updating the repo</td>
+</tr>
+<tr>
+<td><strong>:config_dir</strong></td>
+<td><code>conf</code></td>
+<td>Config directory within gitolite repository</td>
+</tr>
+<tr>
+<td><strong>:key_dir</strong></td>
+<td><code>keydir</code></td>
+<td>Public key directory within gitolite repository</td>
+</tr>
+<tr>
+<td><strong>:config_file</strong></td>
+<td><code>gitolite.conf</code></td>
+<td>Config file to parse <strong>(use only when you use the 'include' directive of gitolite)</strong>
+</td>
+</tr>
+<tr>
+<td><strong>:key_subdir</strong></td>
+<td>
+<code>''</code> (i.e., directly in keydir)</td>
+<td>Where to store gitolite-rugged known keys</td>
+</tr>
+<tr>
+<td><strong>:lock_file_path</strong></td>
+<td><code>gitolite-admin.git/.lock</code></td>
+<td>location of the transaction lockfile</td>
 </tr>
 </tbody>
 </table>
@@ -121,7 +164,7 @@ admin <span class="pl-k">=</span> <span class="pl-c1">Gitolite</span>::<span cla
 
 <p>To add a key, create a <code>SSHKey</code> object and use the <code>add_key(key)</code> method of GitoliteAdmin.</p>
 
-<div class="highlight highlight-ruby"><pre><span class="pl-c"># From filesystem</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c"># From filesystem</span>
 key_from_file <span class="pl-k">=</span> <span class="pl-c1">SSHKey</span>.from_file(<span class="pl-s"><span class="pl-pds">"</span>/home/alice/.ssh/id_rsa.pub<span class="pl-pds">"</span></span>)
 
 <span class="pl-c"># From String, which requires us to add an owner manually</span>
@@ -140,7 +183,7 @@ You can also manually call <code>admin.save</code> to commit the changes locally
 
 <p>To add a new repository, we first create and configure it, and then add it to the memory representation of gitolite:</p>
 
-<div class="highlight highlight-ruby"><pre>repo <span class="pl-k">=</span> <span class="pl-c1">Gitolite</span>::<span class="pl-c1">Config</span>::<span class="pl-c1">Repo</span>.<span class="pl-k">new</span>(<span class="pl-s"><span class="pl-pds">'</span>foobar<span class="pl-pds">'</span></span>)
+<div class="highlight highlight-source-ruby"><pre>repo <span class="pl-k">=</span> <span class="pl-c1">Gitolite</span>::<span class="pl-c1">Config</span>::<span class="pl-c1">Repo</span>.<span class="pl-k">new</span>(<span class="pl-s"><span class="pl-pds">'</span>foobar<span class="pl-pds">'</span></span>)
 repo.add_permission(<span class="pl-s"><span class="pl-pds">"</span>RW+<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>alice<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bob<span class="pl-pds">"</span></span>)
 
 <span class="pl-c"># Add the repo</span>
@@ -153,7 +196,7 @@ admin.config.add_repo(repo)</pre></div>
 
 <p>As in the <a href="http://gitolite.com/gitolite/groups.html">Gitolite Config</a> you can define groups as an alias to repos or users.</p>
 
-<div class="highlight highlight-ruby"><pre><span class="pl-c"># Creating a group</span>
+<div class="highlight highlight-source-ruby"><pre><span class="pl-c"># Creating a group</span>
 devs <span class="pl-k">=</span> <span class="pl-c1">Gitolite</span>::<span class="pl-c1">Config</span>::<span class="pl-c1">Group</span>.<span class="pl-k">new</span>(<span class="pl-s"><span class="pl-pds">'</span>developers<span class="pl-pds">'</span></span>)
 devs.add_users(<span class="pl-s"><span class="pl-pds">"</span>alice<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>bob<span class="pl-pds">"</span></span>)
 
