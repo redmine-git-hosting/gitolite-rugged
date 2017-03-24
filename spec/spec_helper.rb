@@ -3,7 +3,6 @@ require 'simplecov'
 require 'forgery'
 require 'rspec'
 require 'faker'
-require 'codeclimate-test-reporter'
 require 'support/helper'
 
 ## Configure SimpleCov
