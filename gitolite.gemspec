@@ -1,5 +1,7 @@
-# -*- encoding: utf-8 -*-
-$:.push File.expand_path('../lib', __FILE__)
+# frozen_string_literal: true
+
+lib = File.expand_path('lib', __dir__)
+$LOAD_PATH.push(lib) unless $LOAD_PATH.include?(lib)
 require 'gitolite/version'
 
 Gem::Specification.new do |s|
