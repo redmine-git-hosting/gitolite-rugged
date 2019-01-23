@@ -18,10 +18,10 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'rugged',  '~> 0.22',  '>= 0.22.2'
   s.add_runtime_dependency 'gratr19', '~> 0.4.4', '>= 0.4.4.1'
 
-  s.add_development_dependency 'rake',      '~> 10.4', '>= 10.4.2'
-  s.add_development_dependency 'rspec',     '~> 3.3',  '>= 3.3.0'
-  s.add_development_dependency 'forgery',   '~> 0.6',  '>= 0.6.0'
-  s.add_development_dependency 'simplecov', '~> 0.10', '>= 0.10.0'
-  s.add_development_dependency 'faker',     '~> 1.5',  '>= 1.5.0'
-  s.add_development_dependency 'sshkey',    '~> 1.7',  '>= 1.7.0'
+  s.add_development_dependency 'faker'
+  s.add_development_dependency 'forgery'
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'simplecov'
+  s.add_development_dependency 'sshkey'
 end
