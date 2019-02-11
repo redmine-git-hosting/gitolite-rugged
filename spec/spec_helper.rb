@@ -5,15 +5,10 @@ require 'rspec'
 require 'faker'
 require 'support/helper'
 
-## Configure SimpleCov
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::HTMLFormatter,
-])
-
 ## Start Simplecov
 SimpleCov.start do
-  add_filter '/spec/'
-  add_filter '/lib/core_ext'
+  add_filter 'spec/'
+  add_filter 'lib/core_ext/'
 end
 
 ## Configure RSpec
