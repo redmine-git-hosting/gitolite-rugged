@@ -58,20 +58,20 @@ admin = Gitolite::GitoliteAdmin.new('/home/myuser/gitolite-admin', settings)
 
 For cloning and pushing to the gitolite-admin.git, you have to provide several options to `GitoliteAdmin` in the settings hash. The following keys are used.
 
-       Option       |   Default   | Description
---------------------|-------------|------------
-**:private_key**    | ```empty``` (this field is mandatory) | Path to the file containing the private SSH key for ```:git_user```
-**:public_key**     | ```empty``` (this field is mandatory) | Path to the file containing the public SSH key for ```:git_user```
-**:git_user**       | ```git``` | The git user to SSH to
-**:hostname**       | ```localhost``` | Hostname for clone url
-**:author_name**    | ```gitolite-rugged gem``` | The git author name to commit with
-**:author_email**   | ```gitolite-rugged@localhost``` | The git author e-mail address to commit with
-**:commit_msg**     | ```Commited by the gitolite-rugged gem``` | The commit message to use when updating the repo
-**:config_dir**     | ```conf``` | Config directory within gitolite repository
-**:key_dir**        | ```keydir``` | Public key directory within gitolite repository
-**:config_file**    | ```gitolite.conf``` | Config file to parse **(use only when you use the 'include' directive of gitolite)**
-**:key_subdir**     | ```''``` (i.e., directly in keydir) | Where to store gitolite-rugged known keys
-**:lock\_file_path** | ```gitolite-admin.git/.lock``` | location of the transaction lockfile
+Option               | Default                                   | Description |
+---------------------| ------------------------------------------| ------------|
+**:private_key**     | ```empty``` (this field is mandatory)     | Path to the file containing the private SSH key for ```:git_user```
+**:public_key**      | ```empty``` (this field is mandatory)     | Path to the file containing the public SSH key for ```:git_user```
+**:git_user**        | ```git```                                 | The git user to SSH to
+**:hostname**        | ```localhost```                           | Hostname for clone url
+**:author_name**     | ```gitolite-rugged gem```                 | The git author name to commit with
+**:author_email**    | ```gitolite-rugged@localhost```           | The git author e-mail address to commit with
+**:commit_msg**      | ```Commited by the gitolite-rugged gem``` | The commit message to use when updating the repo
+**:config_dir**      | ```conf```                                | Config directory within gitolite repository
+**:key_dir**         | ```keydir```                              | Public key directory within gitolite repository
+**:config_file**     | ```gitolite.conf```                       | Config file to parse **(use only when you use the 'include' directive of gitolite)**
+**:key_subdir**      | ```''``` (i.e., directly in keydir)       | Where to store gitolite-rugged known keys
+**:lock\_file_path** | ```gitolite-admin.git/.lock```            | location of the transaction lockfile
 
 
 ### Managing Public Keys
