@@ -1,5 +1,3 @@
-require 'fileutils'
-
 module Gitolite
 
   # Models an SSH key within gitolite

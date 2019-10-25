@@ -1,6 +1,3 @@
-require 'tempfile'
-require 'fileutils'
-
 module Gitolite
 
   class Config
