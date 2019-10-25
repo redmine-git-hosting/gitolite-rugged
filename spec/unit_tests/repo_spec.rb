@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gitolite::Config::Repo do
+RSpec.describe Gitolite::Config::Repo do
   before(:each) do
     @repo = Gitolite::Config::Repo.new("CoolRepo")
   end

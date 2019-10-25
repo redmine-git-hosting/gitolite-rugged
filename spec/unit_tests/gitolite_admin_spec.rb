@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'ostruct'
 
-describe Gitolite::GitoliteAdmin do
+RSpec.describe Gitolite::GitoliteAdmin do
 
   def build_gitolite_admin_klass(path = '/tmp/toto')
     Gitolite::GitoliteAdmin.new(path, { private_key: nil, public_key: nil, update_on_init: false })

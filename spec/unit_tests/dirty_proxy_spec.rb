@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gitolite::DirtyProxy do
+RSpec.describe Gitolite::DirtyProxy do
 
   it "should create a new instance given valid attributes" do
     expect(Gitolite::DirtyProxy.new([])).to_not be nil

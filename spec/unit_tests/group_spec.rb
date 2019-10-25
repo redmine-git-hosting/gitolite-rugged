@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gitolite::Config::Group do
+RSpec.describe Gitolite::Config::Group do
   describe "#new" do
     it "should create a new group with an empty list of users" do
       group = Gitolite::Config::Group.new("testgroup")

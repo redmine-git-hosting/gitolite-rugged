@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gitolite::SSHKey do
+RSpec.describe Gitolite::SSHKey do
 
   key_dir    = File.join(File.dirname(__FILE__), '..', 'fixtures', 'keys', 'bob')
   output_dir = '/tmp'

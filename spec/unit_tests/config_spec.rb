@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Gitolite::Config do
+RSpec.describe Gitolite::Config do
 
   conf_dir   = File.join(File.dirname(__FILE__), '..', 'fixtures', 'configs')
   output_dir = '/tmp'
