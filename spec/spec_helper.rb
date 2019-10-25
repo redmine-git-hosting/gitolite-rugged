@@ -1,4 +1,3 @@
-require 'rubygems'
 require 'simplecov'
 require 'forgery'
 require 'rspec'
@@ -17,6 +16,7 @@ RSpec.configure do |config|
 
   config.color = true
   config.fail_fast = false
+
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
