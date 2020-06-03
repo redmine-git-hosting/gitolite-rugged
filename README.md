@@ -112,7 +112,7 @@ To remove a repository called 'foobar', execute `config.rm_repo('foobar')`.
 
 ### Groups
 
-As in the [Gitolite Config](http://gitolite.com/gitolite/groups.html) you can define groups as an alias to repos or users.
+As in the [Gitolite Config](https://gitolite.com/gitolite/conf#group-definitions) you can define groups as an alias to repos or users.
 
 ```ruby
 # Creating a group
