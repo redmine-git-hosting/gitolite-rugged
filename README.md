@@ -89,7 +89,7 @@ admin.add_key(key_from_string)
 admin.add_key(key_from_file)
 ```
 
-Note that you can add a *location* using the syntax described in [the Gitolite documentation](http://gitolite.com/gitolite/users.html#old-style-multi-keys).
+Note that you can add a *location* using the syntax described in [the Gitolite documentation](https://gitolite.com/gitolite/basic-admin.html#multiple-keys-per-user).
 
 To write out the changes to the keys to the filesystem and push them to gitolite, call `admin.save_and_apply`.
 You can also manually call `admin.save` to commit the changes locally, but not push them.
