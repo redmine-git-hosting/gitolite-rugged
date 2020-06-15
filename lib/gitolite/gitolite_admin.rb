@@ -92,7 +92,7 @@ module Gitolite
           File.join(dir, DEFAULTS[:config_dir]),
           File.join(dir, DEFAULTS[:key_dir]),
           File.join(dir, DEFAULTS[:config_dir], DEFAULTS[:config_file])
-        ].each { |f| return false unless File.exists?(f) }
+        ].each { |f| return false unless File.exist?(f) }
 
         true
       end

@@ -14,7 +14,7 @@ module Gitolite
     class << self
 
       def from_file(key)
-        raise ArgumentError, "#{key} does not exist!" unless File.exists?(key)
+        raise ArgumentError, "#{key} does not exist!" unless File.exist?(key)
 
         # Owner is the basename of the key
         # i.e., <owner>/<location>/<owner>.pub

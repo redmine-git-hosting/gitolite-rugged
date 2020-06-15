@@ -125,7 +125,7 @@ module Gitolite
       context = []
 
       # On first call with a custom *.conf, the config might not yet exist
-      return unless File.exists?(config)
+      return unless File.exist?(config)
 
       # Read each line of our config
       File.open(config, 'r').each do |l|
