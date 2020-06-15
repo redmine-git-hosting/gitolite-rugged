@@ -33,6 +33,7 @@ module Gitolite
 
       def add_key(key)
         raise ArgumentError, 'Key must be of type Gitolite::SSHKey!' unless key.instance_of? Gitolite::SSHKey
+
         ssh_keys[key.owner] << key
         true
       end
@@ -40,6 +41,7 @@ module Gitolite
 
       def rm_key(key)
         raise ArgumentError, 'Key must be of type Gitolite::SSHKey!' unless key.instance_of? Gitolite::SSHKey
+
         ssh_keys[key.owner].delete(key) ? true : false
       end
 
@@ -58,7 +60,7 @@ module Gitolite
           end
 
           # Mark key sets as unmodified (for dirty checking)
-          keys.values.each{ |set| set.clean_up! }
+          keys.values.each(&:clean_up!)
           keys
         end
 
@@ -88,7 +90,7 @@ module Gitolite
 
 
         def current_keys
-          @ssh_keys.values.map { |f| f.map { |t| t.relative_path } }.flatten
+          @ssh_keys.values.map { |f| f.map(&:relative_path) }.flatten
         end
 
 
@@ -96,8 +98,9 @@ module Gitolite
           @ssh_keys.each_value do |key|
             # Write only keys from sets that has been modified
             next if key.respond_to?(:dirty?) && !key.dirty?
+
             key.each do |k|
-              new_key = k.to_file(key_dir_path)
+              k.to_file(key_dir_path)
               index.add File.join(relative_key_dir, k.relative_path)
             end
           end

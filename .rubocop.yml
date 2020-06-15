@@ -1,0 +1,32 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - bin/*
+    - spec/**/*
+
+Style/Documentation:
+  Enabled: false
+
+Layout/EmptyLines:
+  Enabled: false
+
+Layout/EmptyLinesAroundModuleBody:
+  Enabled: false
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Layout/EmptyLineBetweenDefs:
+  Enabled: false
+
+Layout/IndentationConsistency:
+  EnforcedStyle: indented_internal_methods
+
+Layout/HashAlignment:
+  Enabled: false
+
+Style/PerlBackrefs:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 15

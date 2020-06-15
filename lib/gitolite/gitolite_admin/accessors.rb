@@ -54,6 +54,7 @@ module Gitolite
       # Writes all changed aspects out to the file system
       # will also stage all changes then commit
       #
+      # rubocop:disable Metrics/AbcSize
       def save(commit_msg = nil)
         # Add all changes to index (staging area)
         index = repo.index
@@ -70,20 +71,23 @@ module Gitolite
 
         author = commit_author.merge(time: Time.now)
 
-        Rugged::Commit.create(repo,
+        opts = {
           parents:    [repo.head.target],
           tree:       commit_tree,
           update_ref: 'HEAD',
           message:    (commit_msg || @settings[:commit_msg]),
           author:     author,
           committer:  author
-        )
+        }
+        Rugged::Commit.create(repo, opts)
       end
+      # rubocop:enable Metrics/AbcSize
 
 
       # Updates the repo with changes from remote master
       # Warning: This resets the repo before pulling in the changes.
       #
+      # rubocop:disable Metrics/AbcSize
       def update
         # Reset --hard repo before update
         reset! if @settings[:reset_before_update]
@@ -95,25 +99,27 @@ module Gitolite
         merge_index = repo.merge_commits(local_branch, remote_branch)
 
         # Complete the merge by comitting it
-        Rugged::Commit.create(repo,
+        opts = {
           parents:    [local_branch, remote_branch],
           tree:       merge_index.write_tree(repo),
           update_ref: update_ref,
           message:    update_message,
           author:     commit_author,
           committer:  commit_author
-        )
+        }
+        Rugged::Commit.create(repo, opts)
 
         reload!
       end
+      # rubocop:enable Metrics/AbcSize
 
 
       # Lock the gitolite-admin directory and yield.
       # After the block is completed, calls +apply+ only.
       # You have to commit your changes within the transaction block
       #
-      def transaction(&block)
-        File.open(lock_file_path, File::RDWR|File::CREAT, 0644) do |file|
+      def transaction
+        File.open(lock_file_path, File::RDWR | File::CREAT, 0644) do |file|
           # Get lock
           file.sync = true
           file.flock(File::LOCK_EX)

@@ -18,7 +18,7 @@ module Gitolite
     end
 
     def respond_to?(symbol, include_private = false)
-      super || [:dirty?, :clean_up!].include?(symbol.to_sym)
+      super || %i[dirty? clean_up!].include?(symbol.to_sym)
     end
 
     def dirty?

@@ -89,7 +89,7 @@ RSpec.describe Gitolite::GitoliteAdmin do
 
     describe '#exists?' do
       it 'should say if the Gitolite Admin directory exists' do
-        expect(Dir).to receive(:exists?).with(klass.path)
+        expect(Dir).to receive(:exist?).with(klass.path)
         klass.exists?
       end
     end

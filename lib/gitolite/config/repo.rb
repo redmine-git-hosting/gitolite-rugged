@@ -7,7 +7,7 @@ module Gitolite
     # options are all encapsulated in this class
     class Repo
 
-      ALLOWED_PERMISSIONS = /-|C|R|RW\+?(?:C?D?|D?C?)M?/
+      ALLOWED_PERMISSIONS = /-|C|R|RW\+?(?:C?D?|D?C?)M?/.freeze
 
       attr_accessor :permissions, :name, :config, :options, :owner, :description
 
@@ -16,8 +16,8 @@ module Gitolite
       # degree and individual refexes being the second degree.  Both Hashes must respect order
       #
       def initialize(name)
-        @perm_hash_lambda = lambda { Hash.new { |k, v| k[v] = Hash.new { |k2, v2| k2[v2] = [] } } }
-        @permissions = Array.new.push(@perm_hash_lambda.call)
+        @perm_hash_lambda = -> { Hash.new { |k, v| k[v] = Hash.new { |k2, v2| k2[v2] = [] } } }
+        @permissions = [@perm_hash_lambda.call]
 
         @name    = name
         @config  = {} # git config
@@ -26,13 +26,13 @@ module Gitolite
 
 
       def clean_permissions
-        @permissions = Array.new.push(@perm_hash_lambda.call)
+        @permissions = [@perm_hash_lambda.call]
       end
 
 
       def add_permission(perm, refex = '', *users)
         if perm =~ ALLOWED_PERMISSIONS
-          #Handle deny rules
+          # Handle deny rules
           if perm == '-'
             @permissions.push(@perm_hash_lambda.call)
           end
@@ -65,31 +65,34 @@ module Gitolite
       end
 
 
+      # rubocop:disable Metrics/AbcSize
       def to_s
         repo = "repo    #{@name}\n"
 
         @permissions.each do |perm_hash|
           perm_hash.each do |perm, list|
             list.each do |refex, users|
-              repo += "  " + perm.ljust(6) + refex.ljust(25) + "= " + users.join(' ') + "\n"
+              repo += '  ' + perm.ljust(6) + refex.ljust(25) + '= ' + users.join(' ') + "\n"
             end
           end
         end
 
         @config.each do |k, v|
-          repo += "  config " + k + " = " + v.to_s + "\n"
+          repo += '  config ' + k + ' = ' + v.to_s + "\n"
         end
 
         @options.each do |k, v|
-          repo += "  option " + k + " = " + v.to_s + "\n"
+          repo += '  option ' + k + ' = ' + v.to_s + "\n"
         end
 
         repo
       end
+      # rubocop:enable Metrics/AbcSize
 
 
       def gitweb_description
         return nil if @description.nil?
+
         desc = "#{@name} "
         desc += "\"#{@owner}\" " unless @owner.nil?
         desc += "= \"#{@description}\""

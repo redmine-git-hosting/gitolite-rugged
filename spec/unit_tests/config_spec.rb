@@ -351,9 +351,9 @@ RSpec.describe Gitolite::Config do
       c = Gitolite::Config.init
       Dir.mktmpdir("foo") do |dir|
         target = File.join(dir, "someconfigfile")
-        expect(File.exists?(target)).to be false
+        expect(File.exist?(target)).to be false
         c.to_file(target)
-        expect(File.exists?(target)).to be true
+        expect(File.exist?(target)).to be true
       end
     end
 

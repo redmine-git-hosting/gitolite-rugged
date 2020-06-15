@@ -113,7 +113,7 @@ module Gitolite
 
 
     def exists?
-      Dir.exists?(path)
+      Dir.exist?(path)
     end
 
 
@@ -168,6 +168,7 @@ module Gitolite
     def get_references(name)
       ref = repo.references[name]
       return nil if ref.nil?
+
       ref.target
     end
 
