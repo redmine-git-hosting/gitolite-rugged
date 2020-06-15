@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gitolite
 
   # Very simple proxy object for checking if the proxied object was modified

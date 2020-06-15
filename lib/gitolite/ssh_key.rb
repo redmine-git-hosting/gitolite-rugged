@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Gitolite
 
   # Models an SSH key within gitolite
