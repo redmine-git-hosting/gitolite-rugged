@@ -18,7 +18,7 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split("\n")
 
   s.add_runtime_dependency 'gratr19', '~> 0.4.4', '>= 0.4.4.1'
-  s.add_runtime_dependency 'rugged',  '~> 0.22',  '>= 0.22.2'
+  s.add_runtime_dependency 'rugged',  '~> 1.0.0',  '>= 1.0.0'
   s.add_runtime_dependency 'zeitwerk'
 
   s.add_development_dependency 'faker'
