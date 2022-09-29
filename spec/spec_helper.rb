@@ -7,7 +7,6 @@ require 'support/helper'
 ## Start Simplecov
 SimpleCov.start do
   add_filter 'spec/'
-  add_filter 'lib/core_ext/'
 end
 
 ## Configure RSpec
