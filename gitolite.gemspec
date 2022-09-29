@@ -13,7 +13,7 @@ Gem::Specification.new do |s|
   s.description = 'This gem is designed to provide a Ruby interface to the Gitolite Git backend system using libgit2/rugged. This gem aims to provide all management functionality that is available via the gitolite-admin repository (like SSH keys, repository permissions, etc)'
   s.license     = 'MIT'
 
-  s.required_ruby_version = '>= 2.5.0'
+  s.required_ruby_version = '>= 2.7.0'
 
   s.files = `git ls-files`.split("\n")
 
