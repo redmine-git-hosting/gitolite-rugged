@@ -35,7 +35,7 @@ root# yum install libssh2 libssh2-devel cmake libgpg-error-devel
 Then put this in your ```Gemfile``` :
 
 ```ruby
-gem 'gitolite-rugged', git: 'https://github.com/jbox-web/gitolite-rugged.git', tag: '1.4.0'
+gem 'gitolite-rugged', git: 'https://github.com/jbox-web/gitolite-rugged.git', tag: '1.5.0'
 ```
 
 then `bundle install`.
