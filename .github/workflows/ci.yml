@@ -39,6 +39,9 @@ jobs:
           bundle config path vendor/bundle
           bundle install --jobs 4 --retry 3
 
-      - name: RSpec
-        run: |
-          ./bin/rake
+      - name: RSpec & publish code coverage
+        uses: paambaati/codeclimate-action@v2.7.5
+        env:
+          CC_TEST_REPORTER_ID: 3dfc7b128d751fb7905e3fc1b919d81b9203ef295341ea324305fac22a8be8bc
+        with:
+          coverageCommand: bin/rake

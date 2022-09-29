@@ -3,6 +3,8 @@
 [![GitHub license](https://img.shields.io/github/license/jbox-web/gitolite-rugged.svg)](https://github.com/jbox-web/gitolite-rugged/blob/devel/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/jbox-web/gitolite-rugged.svg)](https://github.com/jbox-web/gitolite-rugged/releases/latest)
 [![CI](https://github.com/jbox-web/gitolite-rugged/workflows/CI/badge.svg)](https://github.com/jbox-web/gitolite-rugged/actions)
+[![Code Climate](https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/gpa.svg)](https://codeclimate.com/github/jbox-web/gitolite-rugged)
+[![Test Coverage](https://codeclimate.com/github/jbox-web/gitolite-rugged/badges/coverage.svg)](https://codeclimate.com/github/jbox-web/gitolite-rugged/coverage)
 
 ### A Ruby interface to manage the Gitolite Git backend system, easy ;)
 
