@@ -18,7 +18,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -26,7 +26,7 @@ jobs:
           ruby-version: ${{ matrix.ruby }}
 
       - name: Setup Ruby cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: vendor/bundle
           key: ${{ runner.os }}-gems-${{ matrix.ruby }}-${{ hashFiles('**/Gemfile.lock') }}
@@ -40,7 +40,7 @@ jobs:
           bundle install --jobs 4 --retry 3
 
       - name: RSpec & publish code coverage
-        uses: paambaati/codeclimate-action@v2.7.5
+        uses: paambaati/codeclimate-action@v3
         env:
           CC_TEST_REPORTER_ID: 3dfc7b128d751fb7905e3fc1b919d81b9203ef295341ea324305fac22a8be8bc
         with:
