@@ -18,7 +18,7 @@ It provides these functionalities :
 
 ## Requirements
 
-* Ruby 2.x
+* Ruby 2.7 or 3.0+
 * a working [Gitolite](https://github.com/sitaramc/gitolite) installation
 
 ## Installation
