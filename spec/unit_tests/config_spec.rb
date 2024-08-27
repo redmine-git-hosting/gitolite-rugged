@@ -52,7 +52,7 @@ RSpec.describe Gitolite::Config do
         t.write('gitolite "Bob Zilla"')
         t.close
 
-        expect(lambda { Gitolite::Config.new(t.path) }).to raise_error(Gitolite::Config::ParseError)
+        expect { Gitolite::Config.new(t.path) }.to raise_error(Gitolite::Config::ParseError)
 
         t.unlink
       end
@@ -62,7 +62,7 @@ RSpec.describe Gitolite::Config do
         t.write('@gitolite "Bob Zilla" = "Test description"')
         t.close
 
-        expect(lambda { Gitolite::Config.new(t.path) }).to raise_error(Gitolite::Config::ParseError)
+        expect { Gitolite::Config.new(t.path) }.to raise_error(Gitolite::Config::ParseError)
 
         t.unlink
       end
@@ -94,7 +94,7 @@ RSpec.describe Gitolite::Config do
         t.write("repo foobar\n  option mirror.master =")
         t.close
 
-        expect(lambda { Gitolite::Config.new(t.path) }).to raise_error(Gitolite::Config::ParseError)
+        expect { Gitolite::Config.new(t.path) }.to raise_error(Gitolite::Config::ParseError)
 
         t.unlink
       end
@@ -166,7 +166,7 @@ RSpec.describe Gitolite::Config do
 
     describe "#add_repo" do
       it 'should throw an ArgumentError for non-Gitolite::Config::Repo objects passed in' do
-        expect(lambda{ @config.add_repo("not-a-repo") }).to raise_error(ArgumentError)
+        expect { @config.add_repo("not-a-repo") }.to raise_error(ArgumentError)
       end
 
       it 'should add a given repo to the list of repos' do
@@ -288,7 +288,7 @@ RSpec.describe Gitolite::Config do
 
     describe "#add_group" do
       it 'should throw an ArgumentError for non-Gitolite::Config::Group objects passed in' do
-        expect(lambda{ @config.add_group("not-a-group") }).to raise_error(ArgumentError)
+        expect { @config.add_group("not-a-group") }.to raise_error(ArgumentError)
       end
 
       it 'should add a given group to the groups list' do
@@ -417,7 +417,7 @@ RSpec.describe Gitolite::Config do
       c.add_group(g)
 
       # Attempt to write the config file
-      expect(lambda{ c.to_file(output_dir)}).to raise_error(Gitolite::Config::GroupDependencyError)
+      expect { c.to_file(output_dir)}.to raise_error(Gitolite::Config::GroupDependencyError)
     end
 
     it 'should resolve group dependencies even when there are disconnected portions of the graph' do

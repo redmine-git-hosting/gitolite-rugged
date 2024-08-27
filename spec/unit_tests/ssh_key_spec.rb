@@ -18,7 +18,7 @@ RSpec.describe Gitolite::SSHKey do
 
     it 'should raise an ArgumentError when an owner isnt specified' do
       key_string = "not_a_real_key"
-      expect(lambda { Gitolite::SSHKey.from_string(key_string) }).to raise_error(ArgumentError)
+      expect { Gitolite::SSHKey.from_string(key_string) }.to raise_error(ArgumentError)
     end
 
     it 'should have a location when one is specified' do
@@ -32,11 +32,11 @@ RSpec.describe Gitolite::SSHKey do
     end
 
     it 'should raise an ArgumentError when owner is nil' do
-      expect(lambda { Gitolite::SSHKey.from_string("bad_string", nil) }).to raise_error(ArgumentError)
+      expect { Gitolite::SSHKey.from_string("bad_string", nil) }.to raise_error(ArgumentError)
     end
 
     it 'should raise an ArgumentError when we get an invalid Gitolite::SSHKey string' do
-      expect(lambda { Gitolite::SSHKey.from_string("bad_string", "bob") }).to raise_error(ArgumentError)
+      expect { Gitolite::SSHKey.from_string("bad_string", "bob") }.to raise_error(ArgumentError)
     end
   end
 
