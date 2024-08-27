@@ -18,6 +18,6 @@ Gem::Specification.new do |s|
   s.files = `git ls-files`.split("\n")
 
   s.add_dependency 'gratr19', '~> 0.4.4', '>= 0.4.4.1'
-  s.add_dependency 'rugged',  '~> 1.5.0'
+  s.add_dependency 'rugged',  '>= 1.5.1'
   s.add_dependency 'zeitwerk'
 end
