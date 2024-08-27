@@ -17,17 +17,7 @@ Gem::Specification.new do |s|
 
   s.files = `git ls-files`.split("\n")
 
-  s.add_runtime_dependency 'gratr19', '~> 0.4.4', '>= 0.4.4.1'
-  s.add_runtime_dependency 'rugged',  '~> 1.5.0'
-  s.add_runtime_dependency 'zeitwerk'
-
-  s.add_development_dependency 'faker'
-  s.add_development_dependency 'forgery'
-  s.add_development_dependency 'guard-rspec'
-  s.add_development_dependency 'pry'
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'rubocop'
-  s.add_development_dependency 'simplecov'
-  s.add_development_dependency 'sshkey'
+  s.add_dependency 'gratr19', '~> 0.4.4', '>= 0.4.4.1'
+  s.add_dependency 'rugged',  '~> 1.5.0'
+  s.add_dependency 'zeitwerk'
 end
