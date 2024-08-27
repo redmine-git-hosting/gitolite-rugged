@@ -6,9 +6,9 @@ Gem::Specification.new do |s|
   s.name        = 'gitolite-rugged'
   s.version     = Gitolite::VERSION
   s.platform    = Gem::Platform::RUBY
-  s.authors     = ['Oliver Günther']
-  s.email       = ['mail@oliverguenther.de']
-  s.homepage    = 'https://github.com/oliverguenther/gitolite-rugged'
+  s.authors     = ['Oliver Günther', 'Nicolas Rodriguez']
+  s.email       = ['mail@oliverguenther.de', 'nico@nicoladmin.fr']
+  s.homepage    = 'https://github.com/redmine-git-hosting/gitolite-rugged'
   s.summary     = 'A Ruby gem for manipulating the Gitolite Git backend via the gitolite-admin repository.'
   s.description = 'This gem is designed to provide a Ruby interface to the Gitolite Git backend system using libgit2/rugged. This gem aims to provide all management functionality that is available via the gitolite-admin repository (like SSH keys, repository permissions, etc)'
   s.license     = 'MIT'
