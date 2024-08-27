@@ -31,7 +31,7 @@ module Gitolite
 
 
       def add_permission(perm, refex = '', *users)
-        if perm =~ ALLOWED_PERMISSIONS
+        if ALLOWED_PERMISSIONS.match?(perm)
           # Handle deny rules
           if perm == '-'
             @permissions.push(@perm_hash_lambda.call)

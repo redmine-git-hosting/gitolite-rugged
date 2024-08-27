@@ -60,7 +60,7 @@ module Gitolite
           end
 
           # Mark key sets as unmodified (for dirty checking)
-          keys.values.each(&:clean_up!)
+          keys.each_value(&:clean_up!)
           keys
         end
 

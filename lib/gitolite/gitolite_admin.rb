@@ -26,14 +26,13 @@ module Gitolite
       # Repo settings
       update_on_init:      true,
       reset_before_update: true
-    }
+    }.freeze
 
     include GitoliteAdmin::Accessors
     include GitoliteAdmin::Config
     include GitoliteAdmin::SshKeys
 
-    attr_reader :repo
-    attr_reader :path
+    attr_reader :repo, :path
 
     # Intialize with the path to
     # the gitolite-admin repository

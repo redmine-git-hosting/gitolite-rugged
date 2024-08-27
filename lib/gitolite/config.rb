@@ -204,7 +204,7 @@ module Gitolite
             raise ParseError, "Missing Gitweb description for repo: #{repo}" if description.nil?
 
             # Check for groups
-            raise ParseError, 'Gitweb descriptions cannot be set for groups' if repo =~ /@.+/
+            raise ParseError, 'Gitweb descriptions cannot be set for groups' if /@.+/.match?(repo)
 
             if has_repo? repo
               r = @repos[repo]

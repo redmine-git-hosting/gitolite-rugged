@@ -54,7 +54,6 @@ module Gitolite
       # Writes all changed aspects out to the file system
       # will also stage all changes then commit
       #
-      # rubocop:disable Metrics/AbcSize
       def save(commit_msg = nil)
         # Add all changes to index (staging area)
         index = repo.index
@@ -81,7 +80,6 @@ module Gitolite
         }
         Rugged::Commit.create(repo, opts)
       end
-      # rubocop:enable Metrics/AbcSize
 
 
       # Updates the repo with changes from remote master
@@ -119,7 +117,7 @@ module Gitolite
       # You have to commit your changes within the transaction block
       #
       def transaction
-        File.open(lock_file_path, File::RDWR | File::CREAT, 0644) do |file|
+        File.open(lock_file_path, File::RDWR | File::CREAT, 0o644) do |file|
           # Get lock
           file.sync = true
           file.flock(File::LOCK_EX)

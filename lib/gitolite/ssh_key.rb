@@ -67,7 +67,7 @@ module Gitolite
       def delete_dir_if_empty(dir)
         Dir.rmdir(dir) if File.directory?(dir) && Dir["#{dir}/*"].empty?
       rescue => e
-        STDERR.puts("Warning: Couldn't delete empty directory: #{e.message}")
+        $stderr.puts("Warning: Couldn't delete empty directory: #{e.message}")
       end
 
 
