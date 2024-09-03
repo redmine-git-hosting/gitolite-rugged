@@ -16,3 +16,5 @@ gem 'rubocop-rake'
 gem 'rubocop-rspec'
 gem 'simplecov'
 gem 'sshkey'
+
+gem 'base64' if Gem::Version.new(RUBY_VERSION) >= Gem::Version.new('3.4.0')
