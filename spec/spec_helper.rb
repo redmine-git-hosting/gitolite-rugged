@@ -1,5 +1,4 @@
 require 'simplecov'
-require 'forgery'
 require 'rspec'
 require 'faker'
 require 'support/helper'

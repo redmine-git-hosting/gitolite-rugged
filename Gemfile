@@ -6,7 +6,6 @@ gemspec
 
 # Dev libs
 gem 'faker'
-gem 'forgery'
 gem 'pry'
 gem 'rake'
 gem 'rspec'

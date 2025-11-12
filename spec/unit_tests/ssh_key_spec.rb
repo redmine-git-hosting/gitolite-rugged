@@ -98,8 +98,8 @@ RSpec.describe Gitolite::SSHKey do
   describe '#new' do
     it 'should create a valid ssh key' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
 
       s = Gitolite::SSHKey.new(type, blob, email)
 
@@ -109,9 +109,9 @@ RSpec.describe Gitolite::SSHKey do
 
     it 'should create a valid ssh key while specifying an owner' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
-      owner = Forgery::Name.first_name
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
+      owner = Faker::Name.first_name
 
       s = Gitolite::SSHKey.new(type, blob, email, owner)
 
@@ -121,10 +121,10 @@ RSpec.describe Gitolite::SSHKey do
 
     it 'should create a valid ssh key while specifying an owner and location' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
-      owner = Forgery::Name.first_name
-      location = Forgery::Name.location
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
+      owner = Faker::Name.first_name
+      location = Faker::Company.name
 
       s = Gitolite::SSHKey.new(type, blob, email, owner, location)
 
@@ -138,10 +138,10 @@ RSpec.describe Gitolite::SSHKey do
   describe '#hash' do
     it 'should have two hash equalling one another' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
-      owner = Forgery::Name.first_name
-      location = Forgery::Name.location
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
+      owner = Faker::Name.first_name
+      location = Faker::Company.name
 
       hash_test = [owner, location, type, blob, email].hash
       s = Gitolite::SSHKey.new(type, blob, email, owner, location)
@@ -154,8 +154,8 @@ RSpec.describe Gitolite::SSHKey do
   describe '#filename' do
     it 'should create a filename that is the <email>.pub' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
 
       s = Gitolite::SSHKey.new(type, blob, email)
 
@@ -164,9 +164,9 @@ RSpec.describe Gitolite::SSHKey do
 
     it 'should create a filename that is the <owner>.pub' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
-      owner = Forgery::Name.first_name
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
+      owner = Faker::Name.first_name
 
       s = Gitolite::SSHKey.new(type, blob, email, owner)
 
@@ -175,9 +175,9 @@ RSpec.describe Gitolite::SSHKey do
 
     it 'should create a filename that is the <email>.pub' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
-      location = Forgery::Basic.text(:at_least => 8, :at_most => 15)
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
+      location = Faker::Internet.password(:min_length => 8, :max_length => 15)
 
       s = Gitolite::SSHKey.new(type, blob, email, nil, location)
 
@@ -187,10 +187,10 @@ RSpec.describe Gitolite::SSHKey do
 
     it 'should create a filename that is the <owner>@<location>.pub' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
-      owner = Forgery::Name.first_name
-      location = Forgery::Basic.text(:at_least => 8, :at_most => 15)
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
+      owner = Faker::Name.first_name
+      location = Faker::Internet.password(:min_length => 8, :max_length => 15)
 
       s = Gitolite::SSHKey.new(type, blob, email, owner, location)
 
@@ -202,10 +202,10 @@ RSpec.describe Gitolite::SSHKey do
   describe '#to_file' do
     it 'should write a "valid" SSH public key to the file system' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
-      owner = Forgery::Name.first_name
-      location = Forgery::Basic.text(:at_least => 8, :at_most => 15)
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
+      owner = Faker::Name.first_name
+      location = Faker::Internet.password(:min_length => 8, :max_length => 15)
 
       s = Gitolite::SSHKey.new(type, blob, email, owner, location)
 
@@ -218,10 +218,10 @@ RSpec.describe Gitolite::SSHKey do
 
     it 'should return the filename written' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
-      owner = Forgery::Name.first_name
-      location = Forgery::Basic.text(:at_least => 8, :at_most => 15)
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
+      owner = Faker::Name.first_name
+      location = Faker::Internet.password(:min_length => 8, :max_length => 15)
 
       s = Gitolite::SSHKey.new(type, blob, email, owner, location)
       expect(s.to_file(output_dir)).to eq File.join(output_dir, owner, location, s.filename)
@@ -232,8 +232,8 @@ RSpec.describe Gitolite::SSHKey do
   describe '==' do
     it 'should have two keys equalling one another' do
       type = "ssh-rsa"
-      blob = Forgery::Basic.text(:at_least => 372, :at_most => 372)
-      email = Forgery::Internet.email_address
+      blob = Faker::Internet.password(:min_length => 372, :max_length => 372)
+      email = Faker::Internet.email
 
       s1 = Gitolite::SSHKey.new(type, blob, email)
       s2 = Gitolite::SSHKey.new(type, blob, email)
